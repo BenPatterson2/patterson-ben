@@ -1,0 +1,53 @@
+<!DOCTYPE Html>
+<html>
+
+<head>
+<title>Cynic Cycles Blog</title>
+<link rel="stylesheet" href="css/normalize.css" type="text/css" media="screen">
+</head>
+<body>
+<center>
+
+<h2> {[Blog Title]} </h2>
+</center>
+
+</body>
+</html>
+<div id="login">
+<table>
+<form method="post">
+<br>
+<tr>
+<label>
+
+    <td>User Name</td>
+    <td><input type="text" name="username" value="{{username}}"></td>
+     <td style="color: red">{{username_error}}</td>
+    </tr>
+
+</label>
+
+<tr>
+<label>
+    <td>Password</td>
+    <td><input type="password" name="password" value=""></td>
+     <td style="color: red"> {{password_error}} </td>
+</label>
+<tr>
+<td><input type="submit"></td>
+</table>
+
+
+</div>
+<hr>
+
+	<div class="entry">
+		<div class="entry-title">{{entry.title}}</div>
+		<pre class="entry-body">{{entry.entry}}</pre>
+	</div>
+
+</body>
+
+</html>
+
+
