@@ -331,7 +331,7 @@ class Entries(BaseHandler): #for the permalinking
         test = memcache.get(str(ID))
         if test == None:
 
-            entries = db.GqlQuery("SELECT * FROM Entry where __key__ = KEY('Entry', %s)" %ID)
+            entries = db.GqlQuery("SELECT * FROM Entry where name = %s" %ID)
             entries = list(entries)
             now = datetime.datetime.now()
             memcache.set(str(ID), (entries, now))
@@ -417,10 +417,6 @@ class SignUp(BaseHandler):
                 e = User(key_name= user_username, username = user_username, password=make_pw_hash(user_username,user_password))
             
                 e.put()
-                
-                
-            
-                
 
                 self.redirect('/blog/welcome')
 
