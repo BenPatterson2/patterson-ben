@@ -36,26 +36,10 @@
 
 </div>
 	
-		<br>
-	<br>
-
-	<br>
-	<br>
-
-	<br>
-	<br>
-		<br>
-	<br>
-
-	<br>
-	<br>
-
-	<br>
-	<br>
 
 
 
-	<div class="grid_12">
+
 	<fieldset>
 
 	<table cellpadding="10px">
@@ -67,112 +51,47 @@
 		<th>Length</th>
 		<th>Width</th>
 		<th>Height</th>
-		<th>Unit of Measure</th>
-		<th>Total Weight</th<!---need to add an option by piece -->
-		<th> Kilograms/Pounds</th>
-		<th>Hazardous?</th><!---a link to how to tell if freight is hazardous should be here-->
-		</thead>
+		<th>Weight </th>
+
 			
 			
 		<form method="post" >
-		{% for lines in range(line)%}
+		
 		<tr>
 			
 
-		<td>
-		
+			<td>
 
-		
-
-
-
-
-				{% set pcs3 = "pcs"~lines %} 
-
-				<input type="number" name ={{pcs3}} id="pcs" value={{pcs}} >
+				<input type="number" name ="pcs" value={{boxes.pcs}} >
 
 			</td>
+			
 			<td>
 				
-				{% set length3 = "length"~lines %} 
-				<input type="number" step="any" id ="length" name ={{length3}} value={{length}}>
+				<input type="number" step="any" name ="length" value={{boxes.length}}>
 			</td>
-			<td>
-			    {% set width3 = "width"~lines %} 
 
-				<input type="number" step="any" name ={{width3}} id="width" value ={{width}}>
-			</td>
-			<td>
-				{% set height3 = "height"~lines %} 
-				<input type="number" step="any" name ={{height3}} id="height" value={{height}}>
-
-			</td>
 			<td>
 
+				<input type="number" step="any" name ="width" id="width" value ={{boxes.width}}>
+			</td>
+
+			<td>
+
+				<input type="number" step="any" name ="height" id="height" value={{boxes.height}}>
+
+			</td>
+			
+
+			<td>
+	
+
+				<input type="number" step="any" name ="weight" value={{boxes.weight}}>
+
+			</td>
+
+	
 		
-
-			
-			
-			<select  name="measure">
-			
-			{% for value in ["", "CM", "IN"]%}
-				{% if value == sel_measure %}
-					<option value={{value}} selected>{{value}}</option>
-				{%else%}
-					<option value= {{value}}>{{value}}</option>
-				{%endif%}
-			{%endfor%}
-
-			
-
-			</select>
-
-
-			</td>
-
-			
-
-			
-
-			<td>
-				{% set weight3 = "weight"~lines %} 
-
-				<input type="number" step="any" name ={{weight3}} value={{weight}}>
-
-			</td>
-			<td>
-
-
-				<select name="Weight_Type" id="Weight_Type">
-					
-				{% for value in ["", "KG", "LB"]%}
-					{% if value == sel_weight  %}
-						<option value={{value}} selected>{{value}}</option>
-					{%else%}
-						<option value= {{value}}> {{value}}</option>
-					{%endif%}
-				{%endfor%}
-
-
-				</select>
-			</td>
-			<td>
-
-				<select name="hazardous" id ="hazardous">
-					
-				{% for value in ["", "HAZARDOUS", "NON-HAZARDOUS"]%}
-					{% if value == sel_haz  %}
-						<option value={{value}} selected>{{value}}</option>
-					{%else%}
-						<option value= {{value}}>{{value}}</option>
-					{%endif%}
-				{%endfor%}
-
-
-				</select>
-			<td>	
-		
-		{%endfor%}
 		<tr>
 		<td>
 			<button type ="submit">Submit</button><!---need to add an add line buttone -->
@@ -183,11 +102,7 @@
 			<button >Clear</button>
 		</a>
 		</td>
-		<td>
-		<a href ="/adline">
-			<button type ="submit">Add Line</button> 
-		</a>(doesn't work yet)
-		</td>
+
 		</tr>
 		
 
@@ -203,9 +118,9 @@
 	<br>
 	<br>
 	<fieldset>
-		<table id="output"  cellpadding=10px border ="0">
+		<table id="output">
 
-		<td>{{M3}} </td><td>{{CFT}} </td> <td>{{dim}} <tr><td>{{weightkg}} </td> <td>{{weightlb}} </td></tr>
+		<td>M3={{boxes.m3()}} </td><td>CFT={{boxes.cft()}} </td> <td>DIM WEIGHT ={{boxes.dim()}} <tr><td>WEIGHT in KGS = {{boxes.kgs()}} </td> <td>WEIGHT in LBS {{boxes.weight}} </td></tr>
 		<tr>
 		<div style="color:red;">{{error_message}}</div>
 	
