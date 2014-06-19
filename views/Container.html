@@ -3,13 +3,11 @@
 <html>
 <head>
 
-<link rel="stylesheet" href="/css/normalize.css" type="text/css" media="screen">
-<link rel="stylesheet" href="/css/grid.css" type="text/css" media="screen">
-<link rel="stylesheet" href="/css/style.css" type="text/css" media="screen">
 
-<title> Freight Calculator </title>
 
-</style>
+<title> Freight Calculator  </title>
+
+
 </head>
 
 
@@ -25,13 +23,16 @@
 	</div>
 	
 	<br>
-	<div class="grid_5 intro">
+	<div>
+	<p>
 
   I'll be 
   expanding this as I continue 
   to study programming, web
   design and, web development. Please come back
   and check this out later. 
+
+  </p>
 
 
 </div>
@@ -120,7 +121,7 @@
 	<fieldset>
 		<table id="output">
 
-		<td>M3={{'%1.3f' % boxes.m3()}} </td><td>CFT={{'%1.3f' % boxes.cft()}} </td> <td>DIM WEIGHT ={{'%d' % boxes.dim()}} <tr><td>WEIGHT in KGS = {{'%1.2f' % boxes.kgs()}} </td> <td>WEIGHT in LBS {{'%1.2f' % boxes.weight}} </td></tr>
+		<td>{{'%1.3f M3 ' % boxes.m3()}} </td><td>{{'%1.3f CFT ' % boxes.cft()}} </td> <td>{{'%d CHARGEABLE WEIGHT ' % boxes.dim()}} <tr><td>{{'%1.2f KGS ' % boxes.kgs()}} </td> <td>{{'%1.2f LBS ' % boxes.weight}} </td></tr>
 		<tr>
 		<div style="color:red;">{{error_message}}</div>
 	

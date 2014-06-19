@@ -95,7 +95,8 @@ class BoxSet(object):
         return self.weight * 0.45359237
 
     def dim(self):#calculates dimensional weight for air travels
-        return (self.pcs * self.length * self.width * self.height)/366
+
+        return max((self.pcs * self.length * self.width * self.height)/366, self.kgs())
 
     def m3(self): # calculates cubic meters using inches as inputs
         return (self.pcs * self.length * self.width * self.height) /61024.
