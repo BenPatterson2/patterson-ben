@@ -92,7 +92,7 @@ class BoxSet(object):
         return ((1.0 * self.pcs * self.length * self.width * self.height)/1728)
 
     def kgs(self):# Calculates weight in kgs from pounds
-        return self.pcs * self.weight * 0.45359237
+        return self.weight * 0.45359237
 
     def dim(self):#calculates dimensional weight for air travels
         return (self.pcs * self.length * self.width * self.height)/366
