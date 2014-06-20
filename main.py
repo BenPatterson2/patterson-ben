@@ -38,7 +38,10 @@ from google.appengine.api import memcache
 from google.appengine.ext import db
 
 
-template_dir = os.path.join(os.path.dirname(__file__), 'views')
+template_dir =([os.path.join(os.path.dirname(__file__),"views/navigation"),
+         os.path.join(os.path.dirname(__file__),"views/layouts"),
+         os.path.join(os.path.dirname(__file__),"views")])
+
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
                                
                                autoescape = True)
@@ -77,44 +80,6 @@ def valid_pw(name, pw, h):
     else:
         return None
 
-class BoxSet(object):
-
-    def __init__(self, pcs=0,length=0,width=0,height=0,weight=0, metric="0", measure="0"):
-        """
-        sets as original entered and sends calculated versions of itself
-
-        """
-        self.weight_type = "LBS" if metric == "0" else "KGS"
-        self.measure_type = "IN" if measure == "0" else "CM"
-
-        self.pcs = pcs
-        self.dims = [length, width, height] 
-        self.weight = weight 
-
-
-    def kgs(self):
-        return self.weight/2.2046 if self.weight_type == "LBS" else self.weight
-
-    def cft(self):# calculate cubic feet using inches as inputs
-        return self.pcs * reduce(lambda x, y: x*y, self.dims_in())/1728
-
-    def lbs(self):
-        return self.weight * 2.2046 if self.weight_type == "KGS" else self.weight
-
-    def dims_in(self):
-        convertin = lambda x: x/2.54 if self.measure_type == "CM" else  x
-        return [ convertin(item) for item in self.dims ]
-
-    def dims_cm(self):
-        convertcm = lambda x: x * 2.54 if self.measure_type == "IN" else  x
-        return [ convertcm(item) for item in self.dims ]
-
-    def chargeable(self):#calculates dimensional weight for air travels
-
-        return max((self.pcs * reduce(lambda x, y: x*y, self.dims_in() ) )/366, self.kgs() )
-
-    def m3(self): # calculates cubic meters using inches as inputs
-        return (self.pcs * reduce(lambda x, y: x*y, self.dims_cm() ) )/1000000.0
 
 
 class BaseHandler(webapp2.RequestHandler):
@@ -126,15 +91,96 @@ class BaseHandler(webapp2.RequestHandler):
 
     def write(self, *a, **kw):
         self.response.out.write(*a, **kw)
+############################################
+## MAIN PAGE
+############################################
 
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Hello world!')
+        self.response.write('come back later please')
         self.response.write(str(datetime.datetime.now()))
 
 
-        ##########################################
+
+#####################################
+# FREIGHT CALCULATOR
+#####################################
+
+class BoxSet(object):
+
+    def __init__(self, pcs=1,dims=[0,0,0],weight=0, metric="0", measure="0"):
+        """
+        sets as original entered 
+        weight is stored per pc
+
+        """
+        self.weight_type = "LBS" if metric == "0" else "KGS"
+        self.measure_type = "IN" if measure == "0" else "CM"
+
+        self.pcs = max(pcs,1) 
+        self.dims = dims
+        self.weight_pc = weight/self.pcs
+
+
+    def weight(self):
+        """
+        returns total weight as per the set's weight type designation
+        """
+        return self.weight_pc * self.pcs 
+
+
+    def kgs(self):
+        """
+        returns total weight per set in kgs
+        """
+        return self.weight()/2.2046 if self.weight_type == "LBS" else self.weight()
+
+    def cft(self):# calculate cubic feet using inches as inputs
+        """
+        returns total cft
+        """
+        return self.pcs * reduce(lambda x, y: x*y, self.dims_in())/1728
+
+    def lbs(self):
+        """
+        returns total weight per set in lbs
+        """
+        return self.weight() * 2.2046 if self.weight_type == "KGS" else self.weight()
+
+    def dims_in(self):
+        """
+        returns total an array of [length,width,height] listed as inches
+        """
+        convertin = lambda x: x/2.54 if self.measure_type == "CM" else  x
+        return [ convertin(item) for item in self.dims ]
+
+    def dims_cm(self):
+
+        """
+        returns total an array of [length,width,height] listed in inches
+
+        """
+        convertcm = lambda x: x * 2.54 if self.measure_type == "IN" else  x
+        return [ convertcm(item) for item in self.dims ]
+
+    def chargeable(self):
+        """
+        calculates dimensional weight for air travels
+        """
+
+        return max((self.pcs * reduce(lambda x, y: x*y, self.dims_in() ) )/366, self.kgs() )
+
+    def m3(self):
+        """
+         calculates cubic meters using cm as inputs
+        """
+        return (self.pcs * reduce(lambda x, y: x*y, self.dims_cm() ) )/1000000.0
+
+        
+
+
+
 class Clear(BaseHandler):
 
     def get(self):
@@ -145,7 +191,7 @@ class Clear(BaseHandler):
 class LoadPlan(BaseHandler):
 
     def get(self):
-        self.render("Container.html",boxes = BoxSet())
+        self.render("layouts/container.html",boxes = BoxSet())
     
 
 
@@ -154,21 +200,36 @@ class LoadPlan(BaseHandler):
         self.redirect("/container")
 
 
-    def post(self): #
+    def post(self): 
 
-        pcs = int(self.request.get("pcs"))
-        length = float(self.request.get("length"))
-        width = float(self.request.get("width"))
-        height = float(self.request.get("height"))
-        weight = float(self.request.get("weight"))
+        """
+        Formats the input from the form to enter into 
+        BoxSet instance. It chooses the higher of pcs * per pc weight
+        or total weight listed on form
+        sets negative inputs to abs value
+
+        """
+
+        format = lambda x: 0 if not self.request.get(x) else abs(float(self.request.get(x)))
+
+        pcs = max(int(self.request.get("pcs")),1) 
+        dims = [ format(dim) for dim in ["length","width","height"]]
+       
         metric = self.request.get("metric")  if self.request.get("metric")  else "0"
         measure = self.request.get("measure") if self.request.get("measure")  else "0"
 
-        boxes = BoxSet(pcs,length,width,height,weight,metric,measure)
+        total_weight = format("weight")
+        pc_weight = format("weight_pc")
+        weight = max((pc_weight * pcs) , total_weight)
+
+        boxes = BoxSet(pcs,dims,weight,metric,measure)
        
         self.render("Container.html",boxes = boxes )
-        
-#############################
+
+#####################################
+# BLOG STUFF
+#####################################
+
 
 
 
@@ -475,11 +536,6 @@ class Flush(BaseHandler):
 
 
 
-
-
-
-
-############
 
 
 
