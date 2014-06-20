@@ -24,7 +24,7 @@ import utils.CBM
 import hashlib
 import hmac
 import random
-from private import secret
+
 import string
 
 import webapp2
@@ -37,6 +37,7 @@ import datetime
 from google.appengine.api import memcache
 from google.appengine.ext import db
 
+secret = 'blah_blah_blah'
 
 template_dir =([os.path.join(os.path.dirname(__file__),"views/navigation"),
          os.path.join(os.path.dirname(__file__),"views/layouts"),
@@ -105,10 +106,10 @@ class BaseHandler(webapp2.RequestHandler):
 ############################################
 
 
-class MainHandler(webapp2.RequestHandler):
+class MainHandler(BaseHandler):
     def get(self):
-        self.response.write('come back later please')
-        self.response.write(str(datetime.datetime.now()))
+        self.render("layouts/front.html")
+        
 
 
 
