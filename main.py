@@ -45,9 +45,11 @@ template_dir =([os.path.join(os.path.dirname(__file__),"views/navigation"),
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
                                
                                autoescape = True)
-def render_str(template, **params):
-    t = jinja_env.get_template(template)
-    return t.render(params)
+
+################
+# General stuff
+###############
+
 
 def make_secure_val(val):
     return '%s|%s' % (val, hmac.new(secret, val).hexdigest())
@@ -81,16 +83,23 @@ def valid_pw(name, pw, h):
         return None
 
 
+def render_str(template, **params):
+    t = jinja_env.get_template(template)
+    return t.render(params)
+
 
 class BaseHandler(webapp2.RequestHandler):
+    """
+    simplifies using jinja2
+
+    """
     def render(self, template, **kw):
-
-
 
         self.response.out.write(render_str(template, **kw))
 
     def write(self, *a, **kw):
         self.response.out.write(*a, **kw)
+
 ############################################
 ## MAIN PAGE
 ############################################
@@ -108,6 +117,11 @@ class MainHandler(webapp2.RequestHandler):
 #####################################
 
 class BoxSet(object):
+    """
+    stores dims weight and pcs for a set of uniform boxes
+    provides toolset for formating data for shipping purposes
+
+    """
 
     def __init__(self, pcs=1,dims=[0,0,0],weight=0, metric="0", measure="0"):
         """
