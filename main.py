@@ -166,7 +166,7 @@ class BoxSet(object):
 
     def chargeable(self):
         """
-        calculates dimensional weight for air travels
+        calculates dimensional weight for air travel
         """
 
         return max((self.pcs * reduce(lambda x, y: x*y, self.dims_in() ) )/366, self.kgs() )
@@ -224,7 +224,7 @@ class LoadPlan(BaseHandler):
 
         boxes = BoxSet(pcs,dims,weight,metric,measure)
        
-        self.render("Container.html",boxes = boxes )
+        self.render("layouts/container.html",boxes = boxes )
 
 #####################################
 # BLOG STUFF
