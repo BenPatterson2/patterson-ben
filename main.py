@@ -78,28 +78,43 @@ def valid_pw(name, pw, h):
         return None
 
 class BoxSet(object):
-    def __init__(self,pcs=0,length=0,width=0,height=0,weight=0):
+
+    def __init__(self, pcs=0,length=0,width=0,height=0,weight=0, metric="0", measure="0"):
         """
-        assumes inches and pounds
+        sets as original entered and sends calculated versions of itself
+
         """
-        self.pcs = pcs 
-        self.length = length
-        self.width = width
-        self.height = height
-        self.weight = weight
+        self.weight_type = "LBS" if metric == "0" else "KGS"
+        self.measure_type = "IN" if measure == "0" else "CM"
+
+        self.pcs = pcs
+        self.dims = [length, width, height] 
+        self.weight = weight 
+
+
+    def kgs(self):
+        return self.weight/2.2046 if self.weight_type == "LBS" else self.weight
 
     def cft(self):# calculate cubic feet using inches as inputs
-        return ((1.0 * self.pcs * self.length * self.width * self.height)/1728)
+        return self.pcs * reduce(lambda x, y: x*y, self.dims_in())/1728
 
-    def kgs(self):# Calculates weight in kgs from pounds
-        return self.weight * 0.45359237
+    def lbs(self):
+        return self.weight * 2.2046 if self.weight_type == "KGS" else self.weight
 
-    def dim(self):#calculates dimensional weight for air travels
+    def dims_in(self):
+        convertin = lambda x: x/2.54 if self.measure_type == "CM" else  x
+        return [ convertin(item) for item in self.dims ]
 
-        return max((self.pcs * self.length * self.width * self.height)/366, self.kgs())
+    def dims_cm(self):
+        convertcm = lambda x: x * 2.54 if self.measure_type == "IN" else  x
+        return [ convertcm(item) for item in self.dims ]
+
+    def chargeable(self):#calculates dimensional weight for air travels
+
+        return max((self.pcs * reduce(lambda x, y: x*y, self.dims_in() ) )/366, self.kgs() )
 
     def m3(self): # calculates cubic meters using inches as inputs
-        return (self.pcs * self.length * self.width * self.height) /61024.
+        return (self.pcs * reduce(lambda x, y: x*y, self.dims_cm() ) )/1000000.0
 
 
 class BaseHandler(webapp2.RequestHandler):
@@ -140,12 +155,16 @@ class LoadPlan(BaseHandler):
 
 
     def post(self): #
+
         pcs = int(self.request.get("pcs"))
         length = float(self.request.get("length"))
         width = float(self.request.get("width"))
         height = float(self.request.get("height"))
         weight = float(self.request.get("weight"))
-        boxes = BoxSet( pcs,length,width,height,weight)
+        metric = self.request.get("metric")  if self.request.get("metric")  else "0"
+        measure = self.request.get("measure") if self.request.get("measure")  else "0"
+
+        boxes = BoxSet(pcs,length,width,height,weight,metric,measure)
        
         self.render("Container.html",boxes = boxes )
         

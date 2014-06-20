@@ -14,10 +14,10 @@
 <body>
 
 
-<div class="container clearfix" >
+<div >
 
-	<div class="grid_5" align="center">
-	<h2><i>Ben's Freight Calculator</i></h2>
+	<div>
+	<h2>Ben's Freight Calculator</h2>
 	<A HREF="mailto:Benthomaspatterson@gmail.com?subject=Regarding the freight calculator website">Contact me!</A>
 		
 	</div>
@@ -43,7 +43,8 @@
 
 	<fieldset>
 
-	<table cellpadding="10px">
+
+	<table >
 
 
 		<thead>
@@ -52,7 +53,7 @@
 		<th>Length</th>
 		<th>Width</th>
 		<th>Height</th>
-		<th>Weight </th>
+		<th>Total Weight </th>
 
 			
 			
@@ -69,17 +70,17 @@
 			
 			<td>
 				
-				<input type="number" step="any" name ="length" value={{boxes.length}}>
+				<input type="number" step="any" name ="length" value={{'%1.1f' % boxes.dims[0]}}>
 			</td>
 
 			<td>
 
-				<input type="number" step="any" name ="width" id="width" value ={{boxes.width}}>
+				<input type="number" step="any" name ="width" id="width" value ={{'%1.1f' % boxes.dims[1]}}>
 			</td>
 
 			<td>
 
-				<input type="number" step="any" name ="height" id="height" value={{boxes.height}}>
+				<input type="number" step="any" name ="height" id="height" value={{'%1.1f' % boxes.dims[2]}}>
 
 			</td>
 			
@@ -87,13 +88,27 @@
 			<td>
 	
 
-				<input type="number" step="any" name ="weight" value={{boxes.weight}}>
+				<input type="number" step="any" name ="weight" value={{'%1.1f' % boxes.weight}}>
 
 			</td>
 
 	
 		
 		<tr>
+		<td>
+			 <input type="radio" name="measure" value=0  {% if boxes.measure_type == "IN" %} checked {%endif%}> IN
+			 
+			 <input type="radio" name="measure" value=1 {% if boxes.measure_type == "CM" %} checked {%endif%}> CM
+			 
+		</td>
+
+		<td>
+			 <input type="radio" name="metric" value=0 {% if boxes.weight_type == "LBS" %} checked {%endif%}> LBS
+			 
+			 <input type="radio" name="metric" value=1  {% if boxes.weight_type == "KGS" %} checked {%endif%}> KGS
+			 
+		</td>
+
 		<td>
 			<button type ="submit">Submit</button><!---need to add an add line buttone -->
 		</td>
@@ -119,14 +134,18 @@
 	<br>
 	<br>
 	<fieldset>
-		<table id="output">
+		<ul id="output">
+		
 
-		<td>{{'%1.3f M3 ' % boxes.m3()}} </td><td>{{'%1.3f CFT ' % boxes.cft()}} </td> <td>{{'%d CHARGEABLE WEIGHT ' % boxes.dim()}} <tr><td>{{'%1.2f KGS ' % boxes.kgs()}} </td> <td>{{'%1.2f LBS ' % boxes.weight}} </td></tr>
-		<tr>
-		<div style="color:red;">{{error_message}}</div>
-	
-		</tr>
-		</table>
+			<li>{{'%1.3f M3 ' % boxes.m3()}}</li>
+			<li>{{'%1.3f CFT ' % boxes.cft()}}</li>
+			<li>{{'%d CHARGEABLE WEIGHT ' % boxes.chargeable()}}</li>
+
+			<li>{{'%1.2f KGS ' % boxes.kgs()}} </li>
+			<li>{{'%1.2f LBS ' % boxes.lbs()}} </li>
+		</ul>
+
+
 	</fieldset>
 	</tr>
 	
