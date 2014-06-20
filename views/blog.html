@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Ben's Blog</title>
+
+</head>
+
+<body>
+        <header>
+        
+
+        
+
+            <h1>Ben's Blog</h1>
+
+            
+
+
+        </header>
+
+
+
+
+            
+{% for entry in entries%}
+    <div class="entry">
+        <div class="entry-title">{{entry.title}}</div>
+        <pre class="entry-body">{{entry.entry}}</pre>
+    </div>
+{% endfor %}
+
+QUERIED {{cached}} seconds ago
+
+        </div>
+
+
+    
+
+    
+
+
+    </BODY>
+
+
+
+
+
+
+
+
+
+</html>
+
+

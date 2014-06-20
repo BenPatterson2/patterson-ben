@@ -1,0 +1,170 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+
+
+<title> Freight Calculator  </title>
+
+
+</head>
+
+
+<body>
+
+
+<div >
+
+	<div>
+	<h2>Ben's Freight Calculator</h2>
+	<A HREF="mailto:Benthomaspatterson@gmail.com?subject=Regarding the freight calculator website">Contact me!</A>
+		
+	</div>
+	
+	<br>
+	<div>
+	<p>
+
+  I'll be 
+  expanding this as I continue 
+  to study programming, web
+  design and, web development. Please come back
+  and check this out later. 
+
+  </p>
+
+
+</div>
+	
+
+
+
+
+	<fieldset>
+
+
+	<table >
+
+
+		<thead>
+		
+		<th>Piece(s)</th>
+		<th>Length</th>
+		<th>Width</th>
+		<th>Height</th>
+		<th>Per Pc Weight </th>
+		<th>Total Weight </th>
+
+			
+			
+		<form method="post" >
+		
+		<tr>
+			
+
+			<td>
+
+				<input type="number" name ="pcs" value={{boxes.pcs}} >
+
+			</td>
+			
+			<td>
+				
+				<input type="number" step="any" name ="length" value={{'%1.1f' % boxes.dims[0]}}>
+			</td>
+
+			<td>
+
+				<input type="number" step="any" name ="width" id="width" value ={{'%1.1f' % boxes.dims[1]}}>
+			</td>
+
+			<td>
+
+				<input type="number" step="any" name ="height" id="height" value={{'%1.1f' % boxes.dims[2]}}>
+
+			</td>
+
+			<td>
+	
+
+				<input type="number" step="any" name ="weight_pc" value={{'%1.1f' % boxes.weight_pc}}>
+
+			</td>
+
+			
+
+			<td>
+	
+
+				<input type="number" step="any" name ="weight" value={{'%1.1f' % boxes.weight()}}>
+
+			</td>
+
+	
+		
+		<tr>
+		<td>
+			 <input type="radio" name="measure" value=0  {% if boxes.measure_type == "IN" %} checked {%endif%}> IN
+			 
+			 <input type="radio" name="measure" value=1 {% if boxes.measure_type == "CM" %} checked {%endif%}> CM
+			 
+		</td>
+
+		<td>
+			 <input type="radio" name="metric" value=0 {% if boxes.weight_type == "LBS" %} checked {%endif%}> LBS
+			 
+			 <input type="radio" name="metric" value=1  {% if boxes.weight_type == "KGS" %} checked {%endif%}> KGS
+			 
+		</td>
+
+		<td>
+			<button type ="submit">Submit</button><!---need to add an add line buttone -->
+		</td>
+		</form>
+		<td>
+		<a href ="/clear">
+			<button >Clear</button>
+		</a>
+		</td>
+
+		</tr>
+		
+
+	</table>
+	</fieldset>
+
+	<br>
+	<br>
+
+	<br>
+	<br>
+
+	<br>
+	<br>
+	<fieldset>
+		<ul id="output">
+		
+
+			<li>{{'%1.3f M3 ' % boxes.m3()}}</li>
+			<li>{{'%1.3f CFT ' % boxes.cft()}}</li>
+			<li>{{'%d CHARGEABLE WEIGHT ' % boxes.chargeable()}}</li>
+
+			<li>{{'%1.2f KGS ' % boxes.kgs()}} </li>
+			<li>{{'%1.2f LBS ' % boxes.lbs()}} </li>
+
+		</ul>
+
+
+	</fieldset>
+	</tr>
+	
+	</div>
+
+</div>
+
+</body>
+
+</html>
+
+

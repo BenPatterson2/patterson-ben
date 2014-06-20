@@ -13,11 +13,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
 #
+
+
 import os
 import re
 from string import letters
-import CBM
+import utils.CBM
 import hashlib
 import hmac
 import random
@@ -35,13 +38,18 @@ from google.appengine.api import memcache
 from google.appengine.ext import db
 
 
-template_dir = os.path.join(os.path.dirname(__file__), 'templates')
+template_dir =([os.path.join(os.path.dirname(__file__),"views/navigation"),
+         os.path.join(os.path.dirname(__file__),"views/layouts"),
+         os.path.join(os.path.dirname(__file__),"views")])
+
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
                                
                                autoescape = True)
-def render_str(template, **params):
-    t = jinja_env.get_template(template)
-    return t.render(params)
+
+################
+# General stuff
+###############
+
 
 def make_secure_val(val):
     return '%s|%s' % (val, hmac.new(secret, val).hexdigest())
@@ -74,170 +82,168 @@ def valid_pw(name, pw, h):
     else:
         return None
 
+
+def render_str(template, **params):
+    t = jinja_env.get_template(template)
+    return t.render(params)
+
+
 class BaseHandler(webapp2.RequestHandler):
+    """
+    simplifies using jinja2
+
+    """
     def render(self, template, **kw):
-
-
 
         self.response.out.write(render_str(template, **kw))
 
     def write(self, *a, **kw):
         self.response.out.write(*a, **kw)
 
+############################################
+## MAIN PAGE
+############################################
+
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Hello world!')
+        self.response.write('come back later please')
         self.response.write(str(datetime.datetime.now()))
 
 
-        ##########################################
+
+#####################################
+# FREIGHT CALCULATOR
+#####################################
+
+class BoxSet(object):
+    """
+    stores dims weight and pcs for a set of uniform boxes
+    provides toolset for formating data for shipping purposes
+
+    """
+
+    def __init__(self, pcs=1,dims=[0,0,0],weight=0, metric="0", measure="0"):
+        """
+        sets as original entered 
+        weight is stored per pc
+
+        """
+        self.weight_type = "LBS" if metric == "0" else "KGS"
+        self.measure_type = "IN" if measure == "0" else "CM"
+
+        self.pcs = max(pcs,1) 
+        self.dims = dims
+        self.weight_pc = weight/self.pcs
+
+
+    def weight(self):
+        """
+        returns total weight as per the set's weight type designation
+        """
+        return self.weight_pc * self.pcs 
+
+
+    def kgs(self):
+        """
+        returns total weight per set in kgs
+        """
+        return self.weight()/2.2046 if self.weight_type == "LBS" else self.weight()
+
+    def cft(self):# calculate cubic feet using inches as inputs
+        """
+        returns total cft
+        """
+        return self.pcs * reduce(lambda x, y: x*y, self.dims_in())/1728
+
+    def lbs(self):
+        """
+        returns total weight per set in lbs
+        """
+        return self.weight() * 2.2046 if self.weight_type == "KGS" else self.weight()
+
+    def dims_in(self):
+        """
+        returns total an array of [length,width,height] listed as inches
+        """
+        convertin = lambda x: x/2.54 if self.measure_type == "CM" else  x
+        return [ convertin(item) for item in self.dims ]
+
+    def dims_cm(self):
+
+        """
+        returns total an array of [length,width,height] listed in inches
+
+        """
+        convertcm = lambda x: x * 2.54 if self.measure_type == "IN" else  x
+        return [ convertcm(item) for item in self.dims ]
+
+    def chargeable(self):
+        """
+        calculates dimensional weight for air travel
+        """
+
+        return max((self.pcs * reduce(lambda x, y: x*y, self.dims_in() ) )/366, self.kgs() )
+
+    def m3(self):
+        """
+         calculates cubic meters using cm as inputs
+        """
+        return (self.pcs * reduce(lambda x, y: x*y, self.dims_cm() ) )/1000000.0
+
+        
+
+
+
 class Clear(BaseHandler):
 
     def get(self):
         self.response.headers.add_header('Set-Cookie', 'lines=1; Path=/')
         self.redirect("/container")
 
-class Adline(BaseHandler):
-     
-     def get(self):
-        line = int(self.request.cookies.get('lines')) + 1 
-        self.response.headers.add_header('Set-Cookie', 'lines='+str(line)+'; Path=/')#to add
-
-        self.redirect("/container")
-
 
 class LoadPlan(BaseHandler):
 
-    formnames_num = ["weight","pcs","length","width","height"] 
-    formnames_str =["measure","Weight_Type","hazardous"]
-    variables = [("Weight_Type","sel_weight"),("measure","sel_measure"),("hazardous","sel_haz")]
-    
-
-    def isfloat(self,str):
-      try:
-        float(str)
-        return True
-      except ValueError:
-        return False
-
     def get(self):
-        lines = self.request.cookies.get('lines')
-        if not lines:
-            self.response.headers.add_header('Set-Cookie', 'lines=1; Path=/')
-            lines = 1
-
-        self.render("Container.html",M3="",CFT="",pcs="",length="",width="",height="",weight="",line=int(lines),
-            weightlb="",weightkg="",sel_measure="",sel_weight="",error_message="",sel_haz="",Weight="",hazardous="",dim="")
-
-
+        self.render("layouts/container.html",boxes = BoxSet())
     
-    def renderload(self,dict):#takes dictionary --or cookie ? and renders page- finish this
-        return
+
+
     def Clear(self):
         self.response.headers.add_header('Set-Cookie', 'lines=1; Path=/')
         self.redirect("/container")
 
 
-    def post(self): #if all the fields aren't entered in Container.html, an error message is returned. If not, this returns the cubic meters, cubic feet, weight in kilograms 
-                    #weight in pounds,
-        
-        # this needs to ba unit? a class that is passed through each field has a note if it correct or not. And error message?
-        #when a line is added this is saved and then a new unit is going to show up?- check the expense and how it is stored.
-        #each line needs to passed through to the data and not data?
+    def post(self): 
 
-        complete = True
-        pcsdata ={}
-        error_message = "Please enter"
+        """
+        Formats the input from the form to enter into 
+        BoxSet instance. It chooses the higher of pcs * per pc weight
+        or total weight listed on form
+        sets negative inputs to abs value
 
-        for form in self.formnames_num:
-            data = str(self.request.get(form))
-            pcsdata[form] = data
-            
+        """
 
-            if data=="":
-                complete = False
-                error_message +=" "+form+","
-            if not self.isfloat(data):
-                complete = False
-                error_message +=" only numbers in "+form+","
+        format = lambda x: 0 if not self.request.get(x) else abs(float(self.request.get(x)))
 
-        for form in self.formnames_str:
-            data = str(self.request.get(form))
-            pcsdata[form] = data
+        pcs = max(int(self.request.get("pcs")),1) 
+        dims = [ format(dim) for dim in ["length","width","height"]]
+       
+        metric = self.request.get("metric")  if self.request.get("metric")  else "0"
+        measure = self.request.get("measure") if self.request.get("measure")  else "0"
 
-            if data=="":
-                complete = False
-                error_message +=" "+form+","
-            
+        total_weight = format("weight")
+        pc_weight = format("weight_pc")
+        weight = max((pc_weight * pcs) , total_weight)
 
+        boxes = BoxSet(pcs,dims,weight,metric,measure)
+       
+        self.render("layouts/container.html",boxes = boxes )
 
-        for variable in self.variables:
-            if pcsdata[variable[0]]=='selected': #the way I setup the html, an empty dropdown returns 'selected'
-                complete = False
-                pcsdata[variable[0]] = ""
-                error_message +=" "+variable[1]+"," 
-            pcsdata[variable[1]] = pcsdata[variable[0]]
-                
+#####################################
+# BLOG STUFF
+#####################################
 
-
-        if complete :# better way of writing? make sure to make this part of the replacement piece class
-        #needs a better  check digit option
-
-
-            pcs = float(pcsdata["pcs"])
-
-
-
-
-            # look for exception error options on this.
-
-            if pcsdata["measure"] == "IN":
-     
-                length = float(pcsdata["length"])
-                width =float(pcsdata["width"])
-                height = float(pcsdata["height"])
-
-            else:
-
-                 
-                length = CBM.Calc_IN(float(self.request.get("length")))
-                width =CBM.Calc_IN(float(self.request.get("width")))
-                height = CBM.Calc_IN(float(self.request.get("height")))
-
-
-            if pcsdata["Weight_Type"] == "KG":
-                pcsdata["weightkg"] = float(pcsdata["weight"])
-                pcsdata["weightlb"] = CBM.Calc_LB(float(pcsdata["weight"]))
-
-            if pcsdata["Weight_Type"] == "LB":
-                pcsdata["weightkg"]  = CBM.Calc_KG(float(pcsdata["weight"]))
-                pcsdata["weightlb"] = float(pcsdata["weight"])
-
-
-
-
-            pcsdata["M3"] =  CBM.Calc_M3(pcs,length,width,height)# in this class this should only be stored after valid options are entered
-            pcsdata["CFT"] =  CBM.Calc_CFT(pcs,length,width,height)
-            pcsdata["DIM"]=  CBM.Calc_DIM(pcs,length,width,height)
-
-            # I want to make a cookie to pass here and have the formating of the number be on the 
-
-        
-            self.render("Container.html", M3= "%.3f" % pcsdata["M3"] +" Cubic Meters", CFT="%.2f" % pcsdata["CFT"]+" Cubic Feet", pcs=pcsdata["pcs"],length=pcsdata["length"],line=int(self.request.cookies.get('lines')),
-                        width=pcsdata["width"],height=pcsdata["height"], weight=pcsdata["weight"], weightlb="%.2f" % pcsdata["weightlb"] + " Pounds",
-                        weightkg="%.2f" % pcsdata["weightkg"] +" Kilograms",sel_measure=pcsdata["measure"],sel_weight=pcsdata["Weight_Type"],
-                        sel_haz=pcsdata["hazardous"],dim= "%.0f" % pcsdata["DIM"] +" Kgs Dimensional Weight (IATA)",)
-            
-            
-
-
-
-        else:# need a single reformater to handle this named reload, adds an incomplete cookie ... marked incomplete. Need away to highlight bad forms
-            self.render("Container.html", pcs= pcsdata["pcs"],length=pcsdata["length"],
-                        width=pcsdata["width"],height=pcsdata["height"], weight=pcsdata["weight"], sel_measure=pcsdata["measure"],sel_weight=pcsdata["Weight_Type"], error_message=error_message[:-1], sel_haz=pcsdata["hazardous"])
-
-#############################
 
 
 
@@ -261,15 +267,8 @@ class NewPost(BaseHandler): #renders the page to post items too. The front handl
 
             self.response.out.write(link)
 
-            
-            
-
 
             memcache.set(str(link),([e],datetime.datetime.now()))
-            
-            
-          
-
 
             self.redirect("/blog/entries/"+str(link))
 
@@ -331,7 +330,7 @@ class Entries(BaseHandler): #for the permalinking
         test = memcache.get(str(ID))
         if test == None:
 
-            entries = db.GqlQuery("SELECT * FROM Entry where __key__ = KEY('Entry', %s)" %ID)
+            entries = db.GqlQuery("SELECT * FROM Entry where name = %s" %ID)
             entries = list(entries)
             now = datetime.datetime.now()
             memcache.set(str(ID), (entries, now))
@@ -417,10 +416,6 @@ class SignUp(BaseHandler):
                 e = User(key_name= user_username, username = user_username, password=make_pw_hash(user_username,user_password))
             
                 e.put()
-                
-                
-            
-                
 
                 self.redirect('/blog/welcome')
 
@@ -559,11 +554,6 @@ class Flush(BaseHandler):
 
 
 
-############
-
-
-
-
 
 
 
@@ -572,7 +562,6 @@ app = webapp2.WSGIApplication([
     ('/container', LoadPlan),
     ('/clear', Clear),
     ('/blog/flush', Flush),
-    ('/adline', Adline),
     ('/blog/newpost', NewPost),
     ('/blog/signup', SignUp),
     ('/blog/?', Blog),
