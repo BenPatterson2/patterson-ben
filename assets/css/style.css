@@ -1,3 +1,48 @@
 
+body{
+	margin: auto;
+}
+header{
+	padding: 1%;
+	background-color: lightblue;
+	border-bottom: 5px solid black;
+	border-radius: 5px;
+	
+	height: 25%;
+}
+.container{
+
+	position: relative;
+	width: 768px;
+	margin: auto;
+	
+}
+h3 {
+	padding: .5%;
+	border-radius: 5px;
+	color: white;
+	text-shadow: -1px 1px 5px black;
+}
+.introduction h3{
+
+	background-color: blue;
+}
+.portfolio h3{
+	background-color: yellow;
+}
+.mooc_certs h3{
+	background-color: green;
+
+}
+
+.social_media h3{
+	background-color: lightgrey;
+}
+
+.udacity, .coursera, .edx {
+
+	
+}
+
 
 
