@@ -4,11 +4,12 @@ html, body{
 	background-color: orange;
 	height: 100%;
 	font-size: 1em;
+	font-family: 'Play', sans-serif;
 }
 header{
 	padding: 1%;
 	background-color: lightblue;
-	border-bottom: 5px solid black;
+	border-bottom: 5px solid darkblue;
 	border-radius: 5px;
 	
 	height: 20%;
@@ -17,6 +18,24 @@ header a{
 	text-decoration: none;
 	color:darkred;
 }
+
+h3 {
+	padding: 3px;
+	border-bottom: 3px solid rgba(0,0,0,.5);
+	border-radius: 5px;
+	color: white;
+	text-shadow: -1px 1px 2px black;
+	
+
+}
+div li{
+	 list-style-type: none
+	 }
+ul {
+	padding: 10px;
+}
+
+
 .container{
 	background-color: white;
 
@@ -27,13 +46,7 @@ header a{
 	overflow: auto;
 	
 }
-h3 {
-	padding: .2%;
-	border-radius: 5px;
-	color: white;
-	text-shadow: -1px 1px 5px black;
 
-}
 .introduction h3{
 
 	background-color: blue;
@@ -41,9 +54,9 @@ h3 {
 .portfolio h3{
 	background-color: yellow;
 }
-.mooc_certs h3{
+.learning h3{
 	background-color: green;
-	margin: auto;
+	
 
 }
 
@@ -51,24 +64,36 @@ h3 {
 	background-color: lightgrey;
 }
 
-.udacity, .coursera, .edx, .social_media, .portfolio, .introduction{
+.learning, .social_media, .portfolio, .introduction, .portfolio li, .social_media li{
 	float: left;
 	width: 47%;
-	height: 20vh;
-	margin: 1.5%;
+	height: 255px;
+	margin: 1.5%;	
+	font-size: 1em;
 
 	
 }
+
+
 .social_media, .portfolio, .introduction{
 	width: 97%;
 
 }
-.social_media {
-	margin-top: -8vh;
-	
-}
+
 .introduction {
-	margin-bottom: -10vh;
+	height: 50px;
+
+}
+.portfolio li, .social_media li{
+	height: 0;
+	padding: 0,1.5%;
+	line-height: 1em;
+
+}
+.other_learning ul{
+	padding: 5px;
+	margin: 0;
+	float: left;
 }
 
 
