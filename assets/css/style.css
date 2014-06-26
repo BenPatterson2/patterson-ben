@@ -2,32 +2,40 @@
 html, body{
 	margin: auto;
 	background-color: orange;
+	
+	background: url("../imgs/shoes.jpg") no-repeat center center fixed; 
+  	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+  	background-size: cover;
 	height: 100%;
 	font-size: 1em;
 	font-family: 'Play', sans-serif;
 }
 header{
-	padding: 1%;
-	background-color: lightblue;
-	border-bottom: 5px solid darkblue;
+	padding: 5px;
+	background-color: #307fb8;
+	border-bottom: 5px solid #b1d2fb;
 	border-radius: 5px;
+	text-shadow: -1px 2px 5px #515c4c;
 	
-	height: 20%;
 }
+
 header a{
 	text-decoration: none;
-	color:darkred;
+	color: white;
 }
+
 
 h3 {
 	padding: 3px;
-	border-bottom: 3px solid rgba(0,0,0,.5);
+	border-bottom: 3px solid #b1d2fb;
 	border-radius: 5px;
 	color: white;
-	text-shadow: -1px 1px 2px black;
-	
-
+	background-color: #307fb8;
+	text-shadow: -1px 2px 5px #515c4c;	
 }
+
 div li{
 	 list-style-type: none
 	 }
@@ -38,33 +46,19 @@ ul {
 
 .container{
 	background-color: white;
-
 	min-height: 100%;
 	height: 100%;
 	width: 768px;
 	margin: auto;
 	overflow: auto;
-	
+	box-shadow: -5px 5px 40px rgba(0,0,0,.8);
 }
 
-.introduction h3{
 
-	background-color: blue;
-}
-.portfolio h3{
-	background-color: yellow;
-}
-.learning h3{
-	background-color: green;
-	
 
-}
 
-.social_media h3{
-	background-color: lightgrey;
-}
 
-.learning, .social_media, .portfolio, .introduction, .portfolio li, .social_media li{
+.learning, .social_media, .portfolio, .introduction, .portfolio li, .social_media li, header{
 	float: left;
 	width: 47%;
 	height: 255px;
@@ -75,7 +69,7 @@ ul {
 }
 
 
-.social_media, .portfolio, .introduction{
+.social_media, .portfolio, .introduction, header{
 	width: 97%;
 
 }
