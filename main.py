@@ -21,6 +21,9 @@ import os
 import re
 from string import letters
 import utils.CBM
+from models.entry import *
+from models.users import *
+
 import hashlib
 import hmac
 import random
@@ -308,18 +311,8 @@ class Blog(NewPost):#renders the front page and imports from new post
 
         self.render("blog.html", title=title, entry=entry, error=error, entries=entries, cached=seconds,)
 
-class Entry(db.Model): #places new entries into the database
 
-    title = db.StringProperty(required = True)
-    entry = db.TextProperty(required = True)
-    created = db.DateTimeProperty(auto_now_add = True)
 
-class User(db.Model): #places new entries into the database
-
-    username= db.StringProperty(required = True)
-    password = db.TextProperty(required = True)
-    
-    email = db.EmailProperty()
 
 
 

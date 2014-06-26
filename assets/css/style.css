@@ -9,15 +9,17 @@ html, body{
   	-o-background-size: cover;
   	background-size: cover;
 	height: 100%;
-	font-size: 1em;
+	
 	font-family: 'Play', sans-serif;
 }
 header{
 	padding: 5px;
-	background-color: #307fb8;
-	border-bottom: 5px solid #b1d2fb;
-	border-radius: 5px;
-	text-shadow: -1px 2px 5px #515c4c;
+	
+	background:-webkit-linear-gradient(#515c4c,#307fb8);
+  	background:-moz-linear-gradient(#515c4c,#307fb8);
+	border-bottom: 5px solid #3f413c;
+	border-radius: 5px 5px;
+	text-shadow: -1px 2px 5px #3f413c;
 	
 }
 
@@ -89,6 +91,18 @@ ul {
 	margin: 0;
 	float: left;
 }
+
+/*** Media settings   **/
+
+/*
+
+@media all and (max-width: 699px) and (min-width: 520px) {
+  .learning, .social_media, .portfolio, .introduction, .portfolio li, .social_media li, header{
+    width: 100%;
+    
+  }
+}*/
+
 
 
 
