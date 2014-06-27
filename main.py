@@ -251,9 +251,12 @@ class LoadPlan(BaseHandler):
 
 
 
-class NewPost(BaseHandler): #renders the page to post items too. The front handler(Blog) inherits from this class
+class NewPost(BaseHandler):
+     #renders the page to post items too. The front handler(Blog) inherits from this class
+    
     def render_front(self,title="",entry="",error=""):
         self.render("newpost.html", title=title, entry=entry, error=error,)
+
     def get(self):
         self.render_front()
 
@@ -270,8 +273,6 @@ class NewPost(BaseHandler): #renders the page to post items too. The front handl
 
 
             self.response.out.write(link)
-
-
             memcache.set(str(link),([e],datetime.datetime.now()))
 
             self.redirect("/blog/entries/"+str(link))
@@ -309,7 +310,7 @@ class Blog(NewPost):#renders the front page and imports from new post
             seconds = "0"
            
 
-        self.render("blog.html", title=title, entry=entry, error=error, entries=entries, cached=seconds,)
+        self.render("blogs.html", title=title, entry=entry, error=error, entries=entries, cached=seconds,)
 
 
 
@@ -558,10 +559,10 @@ app = webapp2.WSGIApplication([
     ('/blog/flush', Flush),
     ('/blog/newpost', NewPost),
     ('/blog/signup', SignUp),
-    ('/blog/?', Blog),
-    ('/blog/.json', JsonHandler),
-    ('/blog/welcome', WelcomeHandler),
     ('/blog/entries/(\d+)', Entries),
     ('/blog/entries/(\d+).json', JsonHandlerPerma),
+    ('/blog/.json', JsonHandler),
+    ('/blog/welcome', WelcomeHandler),
     ('/blog/login', Login),
-    ('/blog/logout', Logout)], debug=True)
+    ('/blog/logout', Logout), 
+    ('/blog/?', Blog)], debug=True)

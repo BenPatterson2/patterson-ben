@@ -25,7 +25,7 @@
             
 {% for entry in entries%}
     <div class="entry">
-        <a href="/blog/entries/{{entry.key().id()}}" ><div class="entry-title">{{entry.title}}</div></a>
+        <a href="blog/entries/{{entry.key().id()}}" ><div class="entry-title">{{entry.title}}</div></a>
         <div class="entry-date">Created {{entry.created}}</div>
         <pre class="entry-body">{{entry.entry}}</pre>
     </div>
@@ -34,6 +34,17 @@
 QUERIED {{cached}} seconds ago
 
         </div>
+<div class="blogs-nav">
+    <ul>
+    {% for entry in entries%}
+        
+        <li><a href="/blog/entries/{{entry.key().id()}}">{{entry.title}} {{entry.created}}</a></li>
+        
+
+    {% endfor %}
+    </ul>
+
+</div>
 
 
 
