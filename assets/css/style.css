@@ -111,6 +111,8 @@ only screen and (min-device-pixel-ratio : 1.5) {
 
 .container{
 	width: 100%;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
 }
 h3 {
 	font-size: 3em;
