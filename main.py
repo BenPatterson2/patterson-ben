@@ -308,8 +308,7 @@ class Blog(NewPost):#renders the front page and imports from new post
         
             entries = top_pages()
             seconds = "0"
-           
-
+        
         self.render("blogs.html", title=title, entry=entry, error=error, entries=entries, cached=seconds,)
 
 
@@ -322,27 +321,27 @@ class Entries(BaseHandler): #for the permalinking
 
     def render_front(self,product_id):
         ID=int(product_id)
-        # #test = memcache.get(str(ID))
-        # #if test == None:
+        test = memcache.get(str(ID))
+        if test == None:
 
         
-        entries = db.GqlQuery("SELECT * FROM Entry where __key__ = KEY('Entry', %s)" %ID)
-        # entries.filter("ID=", ID)
-        #     #entries = list(entries)
-        # #     now = datetime.datetime.now()
-        # #     memcache.set(str(ID), (entries, now))
+            entries = db.GqlQuery("SELECT * FROM Entry where __key__ = KEY('Entry', %s)" %ID)
+       
+        
+            now = datetime.datetime.now()
+            memcache.set(str(ID), (entries, now))
             
-        seconds = "0"
+            seconds = "0"
         
-        # # else:
-        # #     entries = memcache.get(str(ID))[0]
-        # #     now = datetime.datetime.now()
-        # #     then = memcache.get(str(ID))[-1]
-        # #     seconds = str((now-then).seconds)
-        # self.response.out.write(length(entries)
+        else:
+            entries = memcache.get(str(ID))[0]
+            now = datetime.datetime.now()
+            then = memcache.get(str(ID))[-1]
+            seconds = str((now-then).seconds)
+            
 
 
-        self.render("blogs.html", entries=entries, cached = seconds)
+        self.render("blogs.html", entries = entries, cached = seconds)
 
     def get(self,product_id):
         self.render_front(product_id)

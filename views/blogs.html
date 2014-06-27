@@ -17,7 +17,20 @@
             
 
 
-                <h1>Ben's Blog</h1>
+                <a href="mailto:Benthomaspatterson@gmail.com?subject=Hi Ben! I think you're awesome"><h1>Ben's Blog</h1></a>
+
+
+            <div class="blogs-nav">
+                <ul>
+                {% for entry in entries%}
+                    
+                    <li><a href="/blog/entries/{{entry.key().id()}}">{{entry.title}} {{entry.created}}</a></li>
+                    
+
+                {% endfor %}
+                </ul>
+
+            </div>
 
                 
 
@@ -49,17 +62,7 @@
             QUERIED {{cached}} seconds ago
 
             </div>
-            <div class="blogs-nav">
-                <ul>
-                {% for entry in entries%}
-                    
-                    <li><a href="/blog/entries/{{entry.key().id()}}">{{entry.title}} {{entry.created}}</a></li>
-                    
 
-                {% endfor %}
-                </ul>
-
-            </div>
         </div>
     </body>
 

@@ -44,6 +44,9 @@ div li{
 ul {
 	padding: 10px;
 }
+a:hover{
+	color:rgba(195, 204, 173, 1);
+}
 
 
 .container{
@@ -60,7 +63,7 @@ ul {
 
 
 
-.learning, .social_media, .portfolio, .introduction, .portfolio li, .social_media li, header{
+.learning, .social_media, .portfolio, .introduction, .portfolio li, .social_media li,.entry, .blogs-nav, header{
 	float: left;
 	width: 47%;
 	height: 255px;
@@ -71,7 +74,7 @@ ul {
 }
 
 
-.social_media, .portfolio, .introduction, header{
+.social_media, .portfolio, .introduction, .entry, header{
 	width: 97%;
 
 }
@@ -104,5 +107,29 @@ ul {
 }*/
 
 
+/*******
+* Blog specific
+*******/
+.blogs-nav{
+	float: right;
+	clear: both;
+	margin-top: -50px;
+}
 
+.entry {
+
+	padding: 10px;
+}
+.entry-date {
+
+	float: right;
+	
+}
+.entry-title, .entry-body{
+	float: left;
+
+}
+.entry-body{
+	clear: left;
+}
 
