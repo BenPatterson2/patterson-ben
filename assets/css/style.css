@@ -105,7 +105,46 @@ a:hover{
     
   }
 }*/
+@media
+only screen and (-webkit-min-device-pixel-ratio : 1.5),
+only screen and (min-device-pixel-ratio : 1.5) {
 
+.container{
+	width: 100%;
+}
+h3 {
+	font-size: 3em;
+}
+h1 {
+	font-size: 4em;
+}
+
+.introduction, ul, .entry{
+	font-size: 1.9em;
+	
+}
+.introduction{
+	height: 400px;
+}
+.portfolio, .learning {
+	height: 540px;
+}
+li {
+	padding: 5px;
+}
+
+.introduction, .learning, .social_media, .portfolio, .introduction, .portfolio li, .social_media li,.entry, .blogs-nav, header{
+
+	width: 97%;
+	
+
+}
+.blogs-nav {
+	 visibility: hidden;
+}
+
+
+}
 
 /*******
 * Blog specific
