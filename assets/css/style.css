@@ -63,7 +63,7 @@ a:hover{
 
 
 
-.learning, .social_media, .portfolio, .introduction, .portfolio li, .social_media li,.entry, .blogs-nav, header{
+.introduction, .learning, .social_media, .portfolio, .introduction, .portfolio li, .social_media li,.entry, .blogs-nav, header{
 	float: left;
 	width: 47%;
 	height: 255px;
@@ -80,7 +80,7 @@ a:hover{
 }
 
 .introduction {
-	height: 50px;
+	height: 140px;
 
 }
 .portfolio li, .social_media li{
