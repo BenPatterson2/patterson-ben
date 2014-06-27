@@ -1,54 +1,71 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-<title>Ben's Blog</title>
+    <head>
+    <title>Ben's Blog</title>
+            <link rel="stylesheet" href="/css/normalize.css">
+            <link href='http://fonts.googleapis.com/css?family=Play:400,700' rel='stylesheet' type='text/css'>
+            <link rel="stylesheet" href="/css/style.css">
 
-</head>
+    </head>
 
-<body>
-        <header>
-        
-
-        
-
-            <h1>Ben's Blog</h1>
+    <body>
+        <div class="container">
+            <header>
+            
 
             
 
+                <h1>Ben's Blog</h1>
 
-        </header>
+                
+
+
+            </header>
 
 
 
-<div class="blogs">
+            <div class="blogs">
+                
+            {% for entry in entries%}
+                <div class="entry">
+                    <a href="/blog/entries/{{entry.key().id()}}">
+                        <div class="entry-title">
+                            {{entry.title}}
+                        </div>
+                    </a>
+                    <div class="entry-date">
+                        Created {{entry.created}}
+                    </div>
+                    <div class="entry-body">
+                        {{entry.entry}}
+                    </div>
+                </div>
+            {% endfor %}
+
+            QUERIED {{cached}} seconds ago
+
+            </div>
             
-{% for entry in entries%}
-    <div class="entry">
-        <a href="blog/entries/{{entry.key().id()}}" ><div class="entry-title">{{entry.title}}</div></a>
-        <div class="entry-date">Created {{entry.created}}</div>
-        <pre class="entry-body">{{entry.entry}}</pre>
-    </div>
-{% endfor %}
 
-QUERIED {{cached}} seconds ago
+                <div class="blogs-nav">
 
+                    <ul>
+                    {% for entry in entries%}
+                        <a href="/blog/entries/{{entry.key().id()}}">
+                            <li>
+                                {{entry.title}}
+                            </li>
+                        </a>
+
+                     {% endfor %}
+     
+                    </ul>
+                
+
+            </div>
+            
         </div>
-<div class="blogs-nav">
-    <ul>
-    {% for entry in entries%}
-        
-        <li><a href="/blog/entries/{{entry.key().id()}}">{{entry.title}} {{entry.created}}</a></li>
-        
-
-    {% endfor %}
-    </ul>
-
-</div>
-
-
-
-  </div>
 
 
     

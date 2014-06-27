@@ -1,252 +1,3 @@
-#!/usr/bin/env python
-#
-# Copyright 2007 Google Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-#
-
-
-import os
-import re
-from string import letters
-import utils.CBM
-from models.entry import *
-from models.users import *
-
-import hashlib
-import hmac
-import random
-
-import string
-
-import webapp2
-import jinja2
-import json
-import urllib2
-import logging
-import datetime 
-
-from google.appengine.api import memcache
-from google.appengine.ext import db
-
-secret = 'blah_blah_blah'
-
-template_dir =([os.path.join(os.path.dirname(__file__),"views/navigation"),
-         os.path.join(os.path.dirname(__file__),"views/layouts"),
-         os.path.join(os.path.dirname(__file__),"views")])
-
-jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
-                               
-                               autoescape = True)
-
-################
-# General stuff
-###############
-
-
-def make_secure_val(val):
-    return '%s|%s' % (val, hmac.new(secret, val).hexdigest())
-
-def check_secure_val(secure_val):
-    val = secure_val.split('|')[0]
-    if secure_val == make_secure_val(val):
-
-        return val
-
-def make_salt():
-    return ''.join(random.choice(string.letters) for x in xrange(5))
-
-#
-
-def make_pw_hash(name, pw, salt=None):
-    if not salt:
-        salt = make_salt()
-    h = hashlib.sha256(name + pw + salt).hexdigest()
-    return '%s,%s' % (h, salt)
-
-def valid_pw(name, pw, h):
-    ###Your code here
-    salt = h.split(',')[1]
-  
-    
-    check = make_pw_hash(name,pw,salt)
-    if h == check:
-        return True
-    else:
-        return None
-
-
-def render_str(template, **params):
-    t = jinja_env.get_template(template)
-    return t.render(params)
-
-
-class BaseHandler(webapp2.RequestHandler):
-    """
-    simplifies using jinja2
-
-    """
-    def render(self, template, **kw):
-
-        self.response.out.write(render_str(template, **kw))
-
-    def write(self, *a, **kw):
-        self.response.out.write(*a, **kw)
-
-############################################
-## MAIN PAGE
-############################################
-
-
-class MainHandler(BaseHandler):
-    def get(self):
-        self.render("layouts/front.html")
-        
-
-
-
-#####################################
-# FREIGHT CALCULATOR
-#####################################
-
-class BoxSet(object):
-    """
-    stores dims weight and pcs for a set of uniform boxes
-    provides toolset for formating data for shipping purposes
-
-    """
-
-    def __init__(self, pcs=1,dims=[0,0,0],weight=0, metric="0", measure="0"):
-        """
-        sets as original entered 
-        weight is stored per pc
-
-        """
-        self.weight_type = "LBS" if metric == "0" else "KGS"
-        self.measure_type = "IN" if measure == "0" else "CM"
-
-        self.pcs = max(pcs,1) 
-        self.dims = dims
-        self.weight_pc = weight/self.pcs
-
-
-    def weight(self):
-        """
-        returns total weight as per the set's weight type designation
-        """
-        return self.weight_pc * self.pcs 
-
-
-    def kgs(self):
-        """
-        returns total weight per set in kgs
-        """
-        return self.weight()/2.2046 if self.weight_type == "LBS" else self.weight()
-
-    def cft(self):# calculate cubic feet using inches as inputs
-        """
-        returns total cft
-        """
-        return self.pcs * reduce(lambda x, y: x*y, self.dims_in())/1728
-
-    def lbs(self):
-        """
-        returns total weight per set in lbs
-        """
-        return self.weight() * 2.2046 if self.weight_type == "KGS" else self.weight()
-
-    def dims_in(self):
-        """
-        returns total an array of [length,width,height] listed as inches
-        """
-        convertin = lambda x: x/2.54 if self.measure_type == "CM" else  x
-        return [ convertin(item) for item in self.dims ]
-
-    def dims_cm(self):
-
-        """
-        returns total an array of [length,width,height] listed in inches
-
-        """
-        convertcm = lambda x: x * 2.54 if self.measure_type == "IN" else  x
-        return [ convertcm(item) for item in self.dims ]
-
-    def chargeable(self):
-        """
-        calculates dimensional weight for air travel
-        """
-
-        return max((self.pcs * reduce(lambda x, y: x*y, self.dims_in() ) )/366, self.kgs() )
-
-    def m3(self):
-        """
-         calculates cubic meters using cm as inputs
-        """
-        return (self.pcs * reduce(lambda x, y: x*y, self.dims_cm() ) )/1000000.0
-
-        
-
-
-
-class Clear(BaseHandler):
-
-    def get(self):
-        self.response.headers.add_header('Set-Cookie', 'lines=1; Path=/')
-        self.redirect("/container")
-
-
-class LoadPlan(BaseHandler):
-
-    def get(self):
-        self.render("layouts/container.html",boxes = BoxSet())
-    
-
-
-    def Clear(self):
-        self.response.headers.add_header('Set-Cookie', 'lines=1; Path=/')
-        self.redirect("/container")
-
-
-    def post(self): 
-
-        """
-        Formats the input from the form to enter into 
-        BoxSet instance. It chooses the higher of pcs * per pc weight
-        or total weight listed on form
-        sets negative inputs to abs value
-
-        """
-
-        format = lambda x: 0 if not self.request.get(x) else abs(float(self.request.get(x)))
-
-        pcs = max(int(self.request.get("pcs")),1) 
-        dims = [ format(dim) for dim in ["length","width","height"]]
-       
-        metric = self.request.get("metric")  if self.request.get("metric")  else "0"
-        measure = self.request.get("measure") if self.request.get("measure")  else "0"
-
-        total_weight = format("weight")
-        pc_weight = format("weight_pc")
-        weight = max((pc_weight * pcs) , total_weight)
-
-        boxes = BoxSet(pcs,dims,weight,metric,measure)
-       
-        self.render("layouts/container.html",boxes = boxes )
-
-#####################################
-# BLOG STUFF
-#####################################
 
 
 
@@ -322,27 +73,23 @@ class Entries(BaseHandler): #for the permalinking
 
     def render_front(self,product_id):
         ID=int(product_id)
-        # #test = memcache.get(str(ID))
-        # #if test == None:
-
+        test = memcache.get(str(ID))
         
-        entries = db.GqlQuery("SELECT * FROM Entry where __key__ = KEY('Entry', %s)" %ID)
-        # entries.filter("ID=", ID)
-        #     #entries = list(entries)
-        # #     now = datetime.datetime.now()
-        # #     memcache.set(str(ID), (entries, now))
+        if test == None:
+
+            entries = db.GqlQuery("SELECT * FROM Entry where name = %s" %ID)
+            entries = list(entries)
+            now = datetime.datetime.now()
+            memcache.set(str(ID), (entries, now))
             
-        seconds = "0"
-        
-        # # else:
-        # #     entries = memcache.get(str(ID))[0]
-        # #     now = datetime.datetime.now()
-        # #     then = memcache.get(str(ID))[-1]
-        # #     seconds = str((now-then).seconds)
-        # self.response.out.write(length(entries)
+            seconds = "0"
+        else:
+            entries = memcache.get(str(ID))[0]
+            now = datetime.datetime.now()
+            then = memcache.get(str(ID))[-1]
+            seconds = str((now-then).seconds)
 
-
-        self.render("blogs.html", entries=entries, cached = seconds)
+        self.render("blogs.html", entries =entries, cached = seconds)
 
     def get(self,product_id):
         self.render_front(product_id)
@@ -550,24 +297,3 @@ class Flush(BaseHandler):
 
 
 
-
-
-
-
-
-
-
-app = webapp2.WSGIApplication([
-    ('/', MainHandler),
-    ('/container', LoadPlan),
-    ('/clear', Clear),
-    ('/blog/flush', Flush),
-    ('/blog/newpost', NewPost),
-    ('/blog/signup', SignUp),
-    ('/blog/entries/(\d+).json', JsonHandlerPerma),
-    ('/blog/entries/(\d+)', Entries),
-    ('/blog/.json', JsonHandler),
-    ('/blog/welcome', WelcomeHandler),
-    ('/blog/login', Login),
-    ('/blog/logout', Logout), 
-    ('/blog/?', Blog)], debug=True)
