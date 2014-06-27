@@ -2,19 +2,20 @@
 <html>
 
     <head>
-        <title>Ben's Blog</title>
-        <link rel="stylesheet" href="css/normalize.css">
-        <link href='http://fonts.googleapis.com/css?family=Play:400,700' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="css/style.css">
+
+    <title>Ben's Blog</title>
+            <link rel="stylesheet" href="/css/normalize.css">
+            <link href='http://fonts.googleapis.com/css?family=Play:400,700' rel='stylesheet' type='text/css'>
+            <link rel="stylesheet" href="/css/style.css">
 
     </head>
+
 
     <body>
         <div class="container">
             <header>
             
 
-            
 
                 <h1>Ben's Blog</h1>
 
@@ -26,23 +27,21 @@
 
 
             <div class="blogs">
-                        
-                {% for entry in entries%}
+                
+            {% for entry in entries%}
                 <div class="entry">
-
-                    <a href="/blog/entries/{{entry.key().id()}}" >
+                    <a href="/blog/entries/{{entry.key().id()}}">
                         <div class="entry-title">
                             {{entry.title}}
                         </div>
                     </a>
-
                     <div class="entry-date">
                         Created {{entry.created}}
                     </div>
-
                     <div class="entry-body">
                         {{entry.entry}}
                     </div>
+
 
                 </div>
                 {% endfor %}
