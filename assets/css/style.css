@@ -97,17 +97,45 @@ a:hover{
 
 /*** Media settings   **/
 
-/*
+/******
+* smart phones
+******/
 
-@media all and (max-width: 699px) and (min-width: 520px) {
-  .learning, .social_media, .portfolio, .introduction, .portfolio li, .social_media li, header{
-    width: 100%;
-    
-  }
-}*/
-@media
-only screen and (-webkit-min-device-pixel-ratio : 1.5),
-only screen and (min-device-pixel-ratio : 1.5) {
+@media screen and (min-width : 320px) and (max-width : 480px) {
+
+html, body{
+	background: none;
+}
+.container{
+	width: 100%;
+}
+
+.introduction, .learning, .social_media, .portfolio, .introduction, .portfolio li, .social_media li, .entry, .blogs-nav, header{
+
+	width: 97%;
+	
+
+}
+.introduction {
+
+	height: 270px;
+}
+.portfolio li, .social_media li{
+
+	padding: 5px;
+}
+.blogs-nav {
+	 visibility: hidden;
+}
+
+}
+
+
+/******
+* iphone
+******/
+
+@media only screen and (-webkit-min-device-pixel-ratio : 1.5) only screen and (min-device-pixel-ratio : 1.5) {
 
 .container{
 	width: 100%;
@@ -149,8 +177,9 @@ li {
 	 visibility: hidden;
 }
 
-
 }
+
+
 
 /*******
 * Blog specific
