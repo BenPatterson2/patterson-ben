@@ -114,6 +114,10 @@ only screen and (min-device-pixel-ratio : 1.5) {
 	overflow-y: scroll;
 	-webkit-overflow-scrolling: touch;
 }
+
+html, body{
+	background: none;
+}
 h3 {
 	font-size: 3em;
 }
@@ -158,6 +162,8 @@ li {
 }
 
 .entry {
+	overflow: hidden;
+	width: 96.2%;
 
 	padding: 10px;
 }
@@ -169,6 +175,9 @@ li {
 .entry-title, .entry-body{
 	float: left;
 
+}
+.entry-title, .entry-date {
+	max-width: 47%;
 }
 .entry-body{
 	clear: left;
