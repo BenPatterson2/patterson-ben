@@ -40,6 +40,7 @@ import datetime
 from google.appengine.api import memcache
 from google.appengine.ext import db
 
+
 secret = 'blah_blah_blah'
 
 template_dir =([os.path.join(os.path.dirname(__file__),"views/navigation"),
@@ -547,6 +548,38 @@ class Flush(BaseHandler):
         self.redirect("/blog/")
 
 
+class EditPage(BaseHandler):#edits the page
+    def get(self,page_id):
+       
+        page_id = str(page_id)
+         
+        query = db.GqlQuery("SELECT * FROM Entry where __key__ = KEY('Entry', %s)" %page_id)
+
+        
+
+        if len(list(query)) != 0: 
+            entry =query[0]
+            
+            # name = entry.name
+            # content = entry.entry
+
+            self.render("edit.html", entry= entry )
+        else:
+            self.redirect('/blog')
+
+
+    def post(self,page_id):
+        page_id = str(page_id)
+         
+        query = db.GqlQuery("SELECT * FROM Entry where __key__ = KEY('Entry', %s)" %page_id)
+
+       
+        edit =  query[0]
+        edit.title = self.request.get("title")
+        edit.entry = self.request.get("entry")
+        
+        edit.put()
+        self.redirect("../%s" % str(page_id))
 
 
 
@@ -564,6 +597,7 @@ app = webapp2.WSGIApplication([
     ('/blog/newpost', NewPost),
     ('/blog/signup', SignUp),
     ('/blog/entries/(\d+).json', JsonHandlerPerma),
+    ('/blog/entries/_edit/(\d+)', EditPage),
     ('/blog/entries/(\d+)', Entries),
     ('/blog/.json', JsonHandler),
     ('/blog/welcome', WelcomeHandler),
