@@ -12,6 +12,10 @@ html, body{
 	
 	font-family: 'Play', sans-serif;
 }
+pre {
+	font-family: 'Play', sans-serif;
+
+}
 header{
 	padding: 5px;
 	
@@ -129,6 +133,13 @@ html, body{
 }
 
 }
+@media screen and (min-width : 1200px)  {
+
+.container{
+	width:1100px;
+}
+
+	}
 
 
 /******
@@ -193,6 +204,7 @@ li {
 .entry {
 	overflow: hidden;
 	width: 96.2%;
+	height: 100%;
 
 	padding: 10px;
 }
