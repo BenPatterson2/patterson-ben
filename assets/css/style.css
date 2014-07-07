@@ -33,7 +33,7 @@ header a{
 }
 
 
-h3 {
+div h3 {
 	padding: 3px;
 	border-bottom: 3px solid #b1d2fb;
 	border-radius: 5px;
@@ -45,11 +45,9 @@ h3 {
 div li{
 	 list-style-type: none
 	 }
+
 ul {
 	padding: 10px;
-}
-a:hover{
-	color:rgba(195, 204, 173, 1);
 }
 
 
@@ -57,62 +55,48 @@ a:hover{
 	background-color: white;
 	min-height: 100%;
 	height: 100%;
-	width: 768px;
+	width: 100%;
 	margin: auto;
 	overflow: auto;
+	padding: 10px;
 	box-shadow: -5px 5px 40px rgba(0,0,0,.8);
 }
 
 
-
-
-
-.introduction, .learning, .social_media, .portfolio, .introduction, .portfolio li, .social_media li,.entry, .blogs-nav, header{
-	float: left;
-	width: 47%;
-	height: 255px;
-	margin: 1.5%;	
-	font-size: 1em;
-
-	
+ .entry, .blogs-nav{
+	float: left;	
 }
 
 
-.social_media, .portfolio, .introduction, .entry, header{
+.learning,.social_media, .portfolio, .introduction, .entry, header{
 	width: 97%;
 
 }
-
-.introduction {
-	height: 140px;
-
-}
-.portfolio li, .social_media li{
+.learning ul{
+	visibility: hidden;
 	height: 0;
-	padding: 0,1.5%;
-	line-height: 1em;
-
-}
-.other_learning ul{
-	padding: 5px;
+	padding: 0;
 	margin: 0;
-	float: left;
 }
+.learning:hover ul{
+	visibility: visible;
+	height: 100%;
+}
+
+
 
 /*** Media settings   **/
 
 /******
 * smart phones
 ******/
-
+/*
 @media screen and (min-width : 320px) and (max-width : 480px) {
 
 html, body{
 	background: none;
 }
-.container{
-	width: 100%;
-}
+
 
 .introduction, .learning, .social_media, .portfolio, .introduction, .portfolio li, .social_media li, .entry, .blogs-nav, header{
 
@@ -145,7 +129,7 @@ html, body{
 /******
 * iphone
 ******/
-
+/*
 @media only screen and (-webkit-min-device-pixel-ratio : 1.5) only screen and (min-device-pixel-ratio : 1.5) {
 
 .container{
@@ -189,8 +173,7 @@ li {
 }
 
 }
-
-
+*/
 
 /*******
 * Blog specific
