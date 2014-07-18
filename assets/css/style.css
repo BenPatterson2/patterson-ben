@@ -34,10 +34,22 @@ header{
 
 header a{
 
+
 	text-decoration: none;
 	color: white;
 }
-
+header img{
+	 margin-top: 40px;
+	 width: 20%;
+	 border: solid #447dc2 10px;
+	 border-radius: 100%;
+	 margin-top: 2%;
+	 margin-bottom: 2%;
+	 background-color: rgba(0,0,0,.5);
+	 background-color: white;
+	 opacity: .85;
+	 
+}
 
 div h3 {
 	
@@ -70,6 +82,7 @@ ul {
 	padding: 10px;
 	box-shadow: -5px 5px 40px rgba(0,0,0,.8);
 	background-color: rgba(0,0,0,.5);
+	-webkit-user-select: none;
 
 }
 
@@ -105,14 +118,7 @@ ul {
 .portfolio li{
 	vertical-align: top;
 }
-.portfolio p{
-/*	display: flex;
-	visibility: hidden;
-	margin: 0;
-	padding: 0;
-	height: 0;*/
 
-}
 .portfolio li:hover p, .portfolio li:hover li{
 	visibility: visible;
 	display: inline-block;
@@ -128,170 +134,160 @@ ul {
 	
 
 }
+.introduction p{
+	padding: 10px;
+}
 
 
 
 /*** Media settings   **/
 
 @media screen and (min-width : 768px)  {
-.right_nav{
-	float: right;
-	clear: right;
-	width: 28%;
-	margin-right: 2%;
-	padding: 0;
-}
 
-.container{
-	width:768px;
-}
+	.right_nav{
+		float: right;
+		clear: right;
+		width: 28%;
+		margin-right: 2%;
+		padding: 0;
+	}
+	header img{
 
-.social_media ul{
-	visibility: visible;
-	height: 100%;
-	margin-bottom: 20px;
-}
+	margin-top: 70px;
+	width: 26%;
 
-
-
-.container .portfolio, .introduction{
-	width: 67.2%;
-	float: left;
-	margin-left: 1%;
+	float:left;
 
 }
 
+	.container{
+		width:768px;
+	}
 
-.container .portfolio ul{
-	visibility: visible;
-	height: 100%;
-	
-
-}
-
-.portfolio li{
-	display: inline-block;
-	width: 47%;
-}
+	.social_media ul{
+		visibility: visible;
+		height: 100%;
+		margin-bottom: 20px;
+	}
 
 
-.container .learning, .social_media{
-	width: 100%;
-	
 
-
-}
-
-@media screen and (min-width : 1200px)  {
-
-.container{
-	width:1200px;
-}
-
-/******
-* smart phones
-******/
-/*
-@media screen and (min-width : 320px) and (max-width : 480px) {
-
-html, body{
-	background: none;
-}
-
-
-.introduction, .learning, .social_media, .portfolio, .introduction, .portfolio li, .social_media li, .entry, .blogs-nav, header{
-
-	width: 97%;
-	
-
-}
-.introduction {
-
-	height: 270px;
-}
-.portfolio li, .social_media li{
-
-	padding: 5px;
-}
-.blogs-nav {
-	 visibility: hidden;
-}
-
-}
-@media screen and (min-width : 1200px)  {
-
-.container{
-	width:1100px;
-}
+	.container .portfolio, .introduction, .blogs{
+		width: 67.2%;
+		float: left;
+		margin-left: 1%;
 
 	}
+	.introduction{
+		float: right;
+		margin-right: 1%;
+	}
+
+
+	.container .portfolio ul, .learning ul{
+		visibility: visible;
+		height: 100%;
+		
+
+	}
+	.learning ul{
+		margin-bottom: 20px;
+	}
+
+	.portfolio li{
+		display: inline-block;
+		width: 47%;
+	}
+
+
+	.container .learning, .social_media{
+		width: 100%;
+		
+
+
+	}
+}
+
+@media screen and (min-width : 1200px)  {
+
+	.container{
+		width:1200px;
+	}
+
+}
 
 
 /******
 * iphone
 ******/
-/*
-@media only screen and (-webkit-min-device-pixel-ratio : 1.5) only screen and (min-device-pixel-ratio : 1.5) {
 
-.container{
-	width: 100%;
-	overflow-y: scroll;
-	-webkit-overflow-scrolling: touch;
-}
+/*@media only screen and (-webkit-min-device-pixel-ratio : 1.5) only screen and (min-device-pixel-ratio : 1.5) 
 
-html, body{
-	background: none;
-}
-h3 {
-	font-size: 3em;
-}
-h1 {
-	font-size: 4em;
-}
+{
 
-.introduction, ul, .entry{
-	font-size: 1.9em;
-	
-}
-.introduction{
-	height: 400px;
-}
-.portfolio, .learning {
-	height: 540px;
-}
-li {
-	padding: 5px;
-}
+	.container{
+		width: 100%;
+		overflow-y: scroll;
+		-webkit-overflow-scrolling: touch;
+	}
 
-.introduction, .learning, .social_media, .portfolio, .introduction, .portfolio li, .social_media li,.entry, .blogs-nav, header{
 
-	width: 97%;
-	
+	h3 {
+		font-size: 4rem;
+	}
+	h1 {
+		font-size: 4rem;
+	}
 
-}
-.blogs-nav {
-	 visibility: hidden;
-}
+	.introduction, ul, .entry{
+		font-size: 2rem;
+		
+	}
 
-}
-*/
+
+
+	.introduction,.right_nav,.container .portfolio{
+
+
+		width: 97%;
+		
+
+	}
+
+
+
+}*/
+
 
 /*******
 * Blog specific
 *******/
 
 
-.blogs-nav{
-	float: right;
-	clear: both;
-	margin-top: -50px;
-}
+ .blogs, .blogs-nav {
+ 	background-color: white;
+ 	opacity:.7;
+ 	padding: 1%;
+ 	 
+
+ 	 
+ }
+ .blogs{
+ 	margin-left: 1.6%;
+ 	margin-right: 1%;
+ }
+ .blogs-nav{
+ 	width: 25%;
+ 	display: inline-block;
+ }
 
 .entry {
 	overflow: hidden;
 	width: 96.2%;
 	height: 100%;
-	float: left;	
+	float: left;
+	 
+	
 
 	padding: 10px;
 }
@@ -310,4 +306,5 @@ li {
 .entry-body{
 	clear: left;
 }
+ 
 
