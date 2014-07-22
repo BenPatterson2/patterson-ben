@@ -22,7 +22,7 @@ import re
 from string import letters
 import utils.CBM
 from models.entry import *
-from models.users import *
+
 
 import hashlib
 import hmac
@@ -38,6 +38,7 @@ import logging
 import datetime 
 
 from google.appengine.api import memcache
+from google.appengine.api import users
 from google.appengine.ext import db
 
 
@@ -259,7 +260,13 @@ class NewPost(BaseHandler):
         self.render("newpost.html", title=title, entry=entry, error=error,)
 
     def get(self):
-        self.render_front()
+        user = users.get_current_user()
+
+        if users.is_current_user_admin():
+            self.render_front()
+        else:
+            self.response.out.write("<html><body>%s</body></html>" % "You cannot post because you're not an admin or not logged in")
+
 
     def post(self):
         title = self.request.get("subject")
@@ -350,14 +357,22 @@ class Entries(BaseHandler): #for the permalinking
 class SignUp(BaseHandler):
     def get(self):
         #self.response.headers['Content-Type'] ='text/plain'
-        self.render("signup.html",username="",username_error="",password="",password_error="",
-                   verify="",verify_error="",email="",email_error="")
+  
+        user = users.get_current_user()
+        if user:
+            greeting = ('Welcome, %s! (<a href="%s">sign out</a>)' %
+                        (user.nickname(), users.create_logout_url('/')))
+        else:
+            greeting = ('<a href="%s">Sign in or register</a>.' %
+                        users.create_login_url('/'))
+        self.response.out.write("<html><body>%s</body></html>" % greeting)
+
 
         
 
-    USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$" )
-    PASSWORD_RE = re.compile(r"^.{3,20}$")
-    EMAIL_RE = re.compile(r"^[\S]+@[\S]+\.[\S]+$")
+    # USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$" )
+    # PASSWORD_RE = re.compile(r"^.{3,20}$")
+    # EMAIL_RE = re.compile(r"^[\S]+@[\S]+\.[\S]+$")
 
     def valid_username(self,username):
 
@@ -471,7 +486,7 @@ class Login(SignUp):
 
     def get(self):
         #self.response.headers['Content-Type'] ='text/plain'
-        self.render("login.html",username="",username_error="",password="",password_error="")
+         self.redirect(users.create_login_url('/'))
 
     def post(self):
         user_username = self.request.get('username')
@@ -489,17 +504,19 @@ class Logout(BaseHandler):
         #self.response.headers['Content-Type'] ='text/plain'
         
 
-        self.response.headers.add_header('Set-Cookie', 'username=''; Path=/')
-        self.redirect('/blog/signup')
+        self.redirect(users.create_logout_url('/'))
 
 
 
 class WelcomeHandler(SignUp):
     def get(self):
     
-        user = self.request.cookies.get('user_id')
-        username = check_secure_val(user)
-        
+        user = users.get_current_user()
+        if user:
+            username = user.nickname()
+        else:
+            username = "Guest"
+               
         self.render("welcome.html",username=username)   
 
 class JsonHandler(BaseHandler):
