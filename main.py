@@ -302,8 +302,12 @@ def top_pages():
     memcache.set(key,entries)
     return entries
 
-class Blog(NewPost):#renders the front page and imports from new post
+class Blog(NewPost):#renders the front page and imports from new post 
 
+    def get(self):
+ 
+        self.render_front()
+  
 
 
     def render_front(self,title="",entry="",error=""):
