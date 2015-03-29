@@ -1,0 +1,5 @@
+
+User-Agent: *
+Disallow:
+Disallow: /imgs/
+Disallow: /blog/next

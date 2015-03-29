@@ -1,0 +1,10 @@
+blacklist:
+- subnet: 189.14.91.230
+  description: a single IP address
+- subnet: 78.110.60.230 
+  description: a single IP address
+- subnet: 193.227.240.38
+  description: a single IP address
+- subnet: 193.227.240.37
+  description: a single IP address
+

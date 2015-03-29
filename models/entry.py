@@ -1,10 +1,27 @@
+import markdown
+from markupsafe import Markup, escape
+from google.appengine.ext import ndb
 
-from google.appengine.ext import db
 
+class Entry(ndb.Model): #places new entries into the database
 
-class Entry(db.Model): #places new entries into the database
+	title = ndb.StringProperty(required = True)
+	entry = ndb.TextProperty(required = True)
+	created = ndb.DateTimeProperty(auto_now_add = True)
+	entry_html = ndb.TextProperty()
+	
+	def permalink(self):
+		 return "/blog/entries/" + str(self.key.id())
 
-	title = db.StringProperty(required = True)
-	entry = db.TextProperty(required = True)
-	created = db.DateTimeProperty(auto_now_add = True)
-	#link = db.StringProperty(required = True)
+	def markdown_content(self):
+		return Markup( self.entry_html )
+
+	def set_entry_html(self):
+		self.entry_html =  markdown.markdown(self.entry)
+
+	def nice_created(self):
+
+		return self.created.strftime("%B %d, %Y")
+
+		
+

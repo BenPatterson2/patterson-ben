@@ -1,41 +1,22 @@
+{% extends "navigation/nav_bar.html"%}
+		 {% block content %}
 
-<!DOCTYPE html>
-<html>
-<head>
+<div class="container-plan-div">
 
-
-
-<title> Freight Calculator  </title>
-
-
-</head>
-
-
-<body>
-
-
-<div >
-
-	<div>
+	
 	<h2>Ben's Freight Calculator</h2>
-	<A HREF="mailto:Benthomaspatterson@gmail.com?subject=Regarding the freight calculator website">Contact me!</A>
-		
-	</div>
 	
 	<br>
-	<div>
+	
 	<p>
 
-  I'll be 
-  expanding this as I continue 
-  to study programming, web
-  design and, web development. Please come back
-  and check this out later. 
+	This was my first attempt to create a web app outside of the assigned coursework. I created this while still working for an International freight forwarder. And often had to complete these minor calculations on the calculator next to my desk. I've come back to this a few times to make changes and will likely start to work on it again when it stops reminding me of my former profession.
+
 
   </p>
 
 
-</div>
+
 	
 
 
@@ -44,7 +25,7 @@
 	<fieldset>
 
 
-	<table >
+	<table id="container-form-table">
 
 
 		<thead>
@@ -58,7 +39,7 @@
 
 			
 			
-		<form method="post" >
+		<form method="get" >
 		
 		<tr>
 			
@@ -106,6 +87,8 @@
 		<tr>
 		<td>
 			 <input type="radio" name="measure" value=0  {% if boxes.measure_type == "IN" %} checked {%endif%}> IN
+		</td>
+		<td>
 			 
 			 <input type="radio" name="measure" value=1 {% if boxes.measure_type == "CM" %} checked {%endif%}> CM
 			 
@@ -113,6 +96,8 @@
 
 		<td>
 			 <input type="radio" name="metric" value=0 {% if boxes.weight_type == "LBS" %} checked {%endif%}> LBS
+		</td>
+		<td>
 			 
 			 <input type="radio" name="metric" value=1  {% if boxes.weight_type == "KGS" %} checked {%endif%}> KGS
 			 
@@ -163,8 +148,6 @@
 
 </div>
 
-</body>
 
-</html>
-
+{% endblock %}
 

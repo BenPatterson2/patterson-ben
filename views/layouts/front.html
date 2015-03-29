@@ -1,77 +1,81 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Ben Patterson -  Personal page </title>
-		<link rel="stylesheet" href="css/normalize.css">
-		<link href='http://fonts.googleapis.com/css?family=Play:400,700' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" href="/css/style.css">
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		<meta name="viewport" content="width=device-width, maximum-scale=1.0" />
-		
-	</head>
-
-
-	<body>
-		<div class="container">
-			<header>
-				
-				<a href="mailto:Benthomaspatterson@gmail.com"><img src="imgs/Benphoto.png" alt="profile photo"><h1>Ben Patterson </h1>
-
-				</a>
+{% extends "navigation/nav_bar.html"%}
+		 {% block content %}
 
 
 
-			</header>
+
+
+
 			
-			<div class= "introduction">
-				<h3>About</h3>
-				<p> My name is Ben and I am an MOOC-taught coder. I've self-taught through online offerings from MIT, UC Berkeley, University of Washington, San Jose State, and Internet based organizations such as Udacity.com, Teamtreehouse.com and Code Academy. In addition to a drive to learn and ability to self-supervise and self teach, I have several years of experience in an office environment. Working hard is something I already know how to do and although I'm an entry-level coder, I don't need my hand held.  This site is running on Google app engine, uses Python, html and css.  Please feel free to contact me. I am looking for new opportunities. </p>
+			
+			<div class= "introduction clearfix ">
+				<img src="/imgs/BenJ.jpg" alt="profile photo" id="front-portfolio-image" class="clearfix">
+		
+				<ul>
 
-			</div>
+				
+
+					<li>
+						<h3>About Me</h3>
+						 <p>My name is Ben Patterson and I am a Seattle based web developer. I've self-taught through online content from MIT (via edx.org), UC Berkeley (via edx.org), the University of Washington (via coursera.org), San Jose State, and Internet based organizations such as Udacity.com, Teamtreehouse.com and Code Academy. In addition to a drive to learn and ability to self-supervise and self teach, I have several years of experience in an office environment. Working hard is something I already know how to do and although I'm an entry-level coder, I don't need my hand held.  This site is running on Google app engine, uses Python, html, css and jquery.  Please feel free to contact me. I am looking for new opportunities.</p>
+					</li>
+
+
+					<li id="contact">
+
+						<h3> Contact </h3>
+							<a href="mailto:Benthomaspatterson@gmail.com"> Email: Benthomaspatterson@gmail.com </a>
+							<a href="tel:763-268-9235" > Phone:763-268-9235 </a>
+
+					</li>
+				 </ul>
+
+			</div> <!-- introduction -->
 
 			<div class="right_nav">
-
-				<div class="social_media">
-					<h3> Contact </h3>
-					<ul>
-
-							<a href="mailto:Benthomaspatterson@gmail.com"> Email</a>
-						</li>
-
-						<li> 
-							<a href="tel:763-268-9235" > Phone:763-268-9235 </a>
-						</li>
-					</ul>
+				 {% block github %}
+                 	{{super()}}
+               
 
 
-				</div>
+                {% endblock github %}
 
-
-
-
+				<div id="local_certs">
 				
-				
-				<div class="learning udacity">
-					<h3>Udacity Certificates</h3>
-					<ul>
-						<li>
-							<a href="/imgs/Udacity_Web_Development.pdf">Web Development</a>
-						</li>
+					<div class="learning udacity">
+						<h3>Udacity Certificates</h3>
+						<ul>
+							<li>
+								<a href="/imgs/Udacity_Web_Development.jpg">Web Development</a>
+							</li>
 
-						<li>
-							<a href="imgs/Udacity_Java_Intro.pdf">Intro to Java</a>
-						</li>
+							<li>
+								<a href="/imgs/Udacity_Java_Intro.jpg">Intro to Java</a>
+							</li>
 
-						<li>
-							<a href="imgs/Udacity_Intro_CS.pdf">Intro to Computer Science</a>
-						</li>
+							<li>
+								<a href="/imgs/Udacity_Intro_CS.jpg">Intro to Computer Science</a>
+							</li>
 
-						<li>
-							<a href="imgs/Udacity_Statistics.pdf">Elementary Statistics</a>
-						</li>
+							<li>
+								<a href="/imgs/Udacity_Statistics.jpg">Elementary Statistics</a>
+							</li>
 
-					</ul>
-				</div>
+						</ul>
+					</div><!-- udacity -->
+
+					<div class="learning coursera">
+						<h3>Coursera Certificates</h3>
+						<ul>
+							<li>
+								<a href="/imgs/Coursera_Computer_Networks.jpg">University of Washington - Computer Networks </a>
+							</li>
+
+						</ul>
+						
+					</div><!-- coursera -->
+				</div><!-- local_certs -->
+
 				
 				<div class="learning edx">
 					<h3>Edx Certificates</h3>
@@ -80,26 +84,23 @@
 						<li>
 							<a href="https://verify.edx.org/cert/4b0fdacddc864d1e981e5386f5897098">BerkeleyX Engineering Software as a Service part 1</a>
 						</li>
+						<li>
+							<a href="https://verify.edx.org/cert/905b79e907be4f72a488b6b667733446">BerkeleyX Engineering Software as a Service part 2</a>
+						</li>
 
 						<li>
 
-							<a href="https://verify.edx.org/cert/d3c183becc5141a5a1ae436b38ef2d34">MITx Intro to Computer Science</a>
+							<a href="https://verify.edx.org/cert/d3c183becc5141a5a1ae436b38ef2d34">MITx Introduction to Computer Science and Programming Using Python</a>
+						</li>
+						<li>
+
+							<a href="https://verify.edx.org/cert/74a42c4d96574e478d653563e4bd51ff">MITx Introduction to Computational thinking and Data Science</a>
 						</li>
 
 					</ul>
 
-				</div>
+				</div><!-- edx -->
 
-				<div class="learning coursera">
-					<h3>Coursera Certificates</h3>
-					<ul>
-						<li>
-							<a href="/imgs/Coursera_Computer_Networks.pdf">University of Washington - Computer Networks </a>
-						</li>
-
-					</ul>
-					
-				</div>
 
 				<div class="learning other_learning">
 					<h3>Other Online Learning</h3>
@@ -107,6 +108,13 @@
 						<li>
 							<a href="http://www.codecademy.com/arrayNinja97362">
 							Code Academy
+							</a>
+						</li>
+
+
+						<li>
+							<a href="https://www.codeschool.com/users/1126714">
+							Code School: Shaping up with Angular JS
 							</a>
 						</li>
 
@@ -126,52 +134,44 @@
 							<a href="https://www.youtube.com/playlist?list=PLCAF7D691FFA25555">
 							LinuxLeech.com Bash Tutorial
 							</a>
-						</li>
-						
-
-							
+						</li>	
 					</ul>
 
-				</div>
-			</div>
+				</div><!-- learning -->
+			</div><!-- right-nav -->
 
 
-			<div class= "portfolio">
+			<div class= "portfolio" id="portfolio">
 
 				<h3>Portfolio</h3>
 
 				<ul>
 					<li><a href="/blog">Blog</a><p>A project from Udacity's web development course. This is running on Google App Engine and uses Python, HTML, css, jinja2, memcache and has a json version. My personal page is part of the code and it is available on  github. </p></li>
+					<li><a href="http://benruns.github.io/githubfeed/">Github Feed Widget Generator</a><p>I wrote some simple code for my personal website so that I could have a feed of my recent activity on github. I wanted to dry out the code so that I could use it for anyone's activity. A little more tweaking and I had a code generator for anyone's feed.</p>
+					</li>
+
+					<li><a href="http://git-hub-cacher.appspot.com/">Github Feed Cacher</a><p>Github doesn't like it when the same ip hits it with a large number of requests. I made this to use with codeforseattle's project tracking. If there was a lot of people accessing the site from the same ip at larger meetings, github would stop working. This was my solution </p>
+					</li>
+
+					<li><a href="http://heroku-alarm.appspot.com/">Heroku Alarm</a><p>This wakes up your free heroku app instance before it goes to sleep.  </p>
+					</li>
+
 					<li><a href="/container">Freight Calculator</a><p>A simple tool I created when still working in the freight industry. It converts weights and volumes from imperial to metric, calculates volumes in cubic feet and meters, and calculates the chargeable weight for international air shipments. It is written in Python and uses Google app engine. The code is on github. </p></li>
 					<li><a href="http://mmatch.herokuapp.com/">Maker Match</a><p>This was created for the Seattle Angelhack hackathon. It is running on rails and loaded on heroku. The pages were created using bootstrap templates. I was responsible for css styling and customizing the templates</p></li>
 					<li><a href="http://cynic-cycles.appspot.com/">Cynic Cycles</a><p>A project from Udacity's web development course. The Udacity project was to create a wiki. Once logged in, you can create or edit any address added to the domain. Other features of the site are still in development. The code and is available on  github. </p></li>
 					<li><a href="http://benruns.github.io/2048/">2048 Clone</a><p> A bicycle themed reskin of 2048.</p></li>
 					<li><a href="https://github.com/BenRuns">Github</a><p>My github page.</p></li>
 					<li><a href="http://ben-todo-list.herokuapp.com/">To-do list</a><p>This is a simple todo list created using teamtreehouse.com's rails tutorial. It uses ruby on rails, is loaded onto heroku and the code is on github. </p></li>
+					<li><a href="http://benruns.github.io/game_of_life_js/">Conway's Game of Life</a><p>I became interested in this simulation at a Global Code Retreat and decided to try and implement the solution and visualizations in JavaScript, html and css </p></li>
 
 				</ul>
-			</div>
+			</div><!-- portfolio -->
 
 
 
-			
 
+		{% endblock %}
 
-
-		</div>
-		<script>
-	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-	  ga('create', 'UA-53157441-1', 'auto');
-	  ga('require', 'displayfeatures');
-	  ga('send', 'pageview');
-
-	</script>
-	</body>
-</html>
 
 
 

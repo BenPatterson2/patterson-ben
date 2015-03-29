@@ -1,74 +1,72 @@
-<!DOCTYPE html>
-<html>
+{% extends "navigation/nav_bar.html"%}
 
-    <head>
-
-    <title>Ben's Blog</title>
-            <link rel="stylesheet" href="/css/normalize.css">
-            <link href='http://fonts.googleapis.com/css?family=Play:400,700' rel='stylesheet' type='text/css'>
-            <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
-        
-            <link rel="stylesheet" href="/css/style.css">
-
-    </head>
+         {% block content %}
 
 
-    <body>
-        <div class="container">
-            <header>
-            
 
-
-                <a href="/blog/"><h1>Ben's Blog</h1></a>
-
- 
-
-                
-
-
-            </header>
-
-
+                <h1 >Ben's Blog</h1>
 
             <div class="blogs">
                 
             {% for entry in entries%}
-                <div class="entry">
-                    <a href="/blog/entries/{{entry.key().id()}}">
-                        <div class="entry-title">
+                 <div class="entry">
+                    <a href="/blog/entries/{{entry.key.id() }}" class="entry-title">
+                        
                             {{entry.title}}
-                        </div>
                     </a>
-                    <div class="entry-date">
-                        Created {{entry.created}}
-                    </div>
+
+                    <span class="entry-date">
+                        {{entry.nice_created()}}
+                    </span>
+
                     <div class="entry-body">
-                        <pre>{{entry.entry}}</pre>
+                        {{entry.markdown_content()}}
                     </div>
 
 
-                </div>
-                {% endfor %}
+                 </div>
+            {% endfor %}
+            {% if offset != '0' %} 
+                <a href="/{{ 'blog/next/' + offset }}"  >
+                        Next 10 entries
+                 </a>
+            {% else %}
+                <p> </p>
+            {% endif %}
+            
 
             QUERIED {{cached}} seconds ago
 
             </div>
 
             <div class="blogs-nav right-nav">
-                <ul>
+                <ul class="clearfix" id="blogs-nav">
                 {% for entry in entries%}
-                    
-                    <li><a href="/blog/entries/{{entry.key().id()}}">{{entry.title}} {{entry.created}}</a></li>
+                    <a href="/blog/entries/{{entry.key.id()}}" class="entry-date blogs-nav-li" >
+                        <li ><p>{{entry.title}}</p><p>{{entry.nice_created()}}</p></li>
+                    </a>
                     
 
                 {% endfor %}
+
+
+                    
+
                 </ul>
+
+                {% block github %}
+                 {{super()}}
+               
+
+
+                {% endblock github %}
+
 
             </div>
 
 
-        </div>
-    </body>
+
+{% endblock %}
 
 
 
@@ -78,6 +76,5 @@
 
 
 
-</html>
 
 

@@ -15,14 +15,15 @@
 # limitations under the License.
 
 #
+import sys
+sys.path.insert(0, 'utils')
 
-
+import markdown
 import os
 import re
 from string import letters
 import utils.CBM
 from models.entry import *
-
 
 import hashlib
 import hmac
@@ -40,16 +41,17 @@ import datetime
 from google.appengine.api import memcache
 from google.appengine.api import users
 from google.appengine.ext import db
-
+from google.appengine.ext import ndb
 
 secret = 'blah_blah_blah'
 
 template_dir =([os.path.join(os.path.dirname(__file__),"views/navigation"),
          os.path.join(os.path.dirname(__file__),"views/layouts"),
+         os.path.join(os.path.dirname(__file__),"views/admin"),
+         os.path.join(os.path.dirname(__file__),"views/pages"),
          os.path.join(os.path.dirname(__file__),"views")])
 
-jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
-                               
+jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),                             
                                autoescape = True)
 
 ################
@@ -208,19 +210,14 @@ class Clear(BaseHandler):
         self.redirect("/container")
 
 
-class LoadPlan(BaseHandler):
-
-    def get(self):
-        self.render("layouts/container.html",boxes = BoxSet())
-    
-
+class LoadPlan(BaseHandler):    
 
     def Clear(self):
         self.response.headers.add_header('Set-Cookie', 'lines=1; Path=/')
         self.redirect("/container")
 
 
-    def post(self): 
+    def get(self): 
 
         """
         Formats the input from the form to enter into 
@@ -273,11 +270,14 @@ class NewPost(BaseHandler):
         entry = self.request.get("content")
 
         if title and entry:
+
+            
+
             e = Entry(title = title, entry = entry)
+            e.set_entry_html()
             
             e.put()
-            link = e.key().id()
-            memcache.delete("top")
+            link = e.key.id()
 
 
             self.response.out.write(link)
@@ -295,11 +295,12 @@ def top_pages():
     memcache.set('time', datetime.datetime.now())
 
     logging.info("DB_QUERY")
-    entries = db.GqlQuery("SELECT * FROM Entry ORDER BY created  DESC LIMIT 10")
-    #entries = list(entries)
+    entries = Entry.query()
+    entries.order(-Entry.created)
 
 
-    memcache.set(key,entries)
+
+    memcache.set(key, entries)
     return entries
 
 class Blog(NewPost):#renders the front page and imports from new post 
@@ -311,17 +312,12 @@ class Blog(NewPost):#renders the front page and imports from new post
 
 
     def render_front(self,title="",entry="",error=""):
-        if memcache.get("top") is not None:
-            entries = memcache.get("top")
-            now = datetime.datetime.now()
-            then = memcache.get('time')
-            seconds = str((now-then).seconds)
-        else:
         
-            entries = top_pages()
-            seconds = "0"
+        entries = Entry.query().order(-Entry.created).fetch(10)
         
-        self.render("blogs.html", title=title, entry=entry, error=error, entries=entries, cached=seconds,)
+        seconds = '0'
+        
+        self.render("blogs.html", title=title, entry=entry, error=error, entries=entries, cached=seconds, offset='10')
 
 
 
@@ -337,11 +333,10 @@ class Entries(BaseHandler): #for the permalinking
         if test == None:
 
         
-            entries = db.GqlQuery("SELECT * FROM Entry where __key__ = KEY('Entry', %s)" %ID)
-       
-        
+            entries = [Entry.get_by_id(ID)]
+
             now = datetime.datetime.now()
-            memcache.set(str(ID), (entries, now))
+            #memcache.set(str(ID), (entries, now))
             
             seconds = "0"
         
@@ -353,10 +348,34 @@ class Entries(BaseHandler): #for the permalinking
             
 
 
-        self.render("blogs.html", entries = entries, cached = seconds)
+        self.render("blogs.html", entries = entries, cached = seconds, offset='0')
 
     def get(self,product_id):
         self.render_front(product_id)
+
+class Offsetentries(BaseHandler): #for the permalinking
+
+    def render_front(self,product_id):
+        offset = int(product_id)
+
+        entries = Entry.gql("ORDER BY created DESC LIMIT %s, 10" %offset)
+
+        now = datetime.datetime.now()
+            
+        seconds = "0"
+        check = 0
+        offset += 10
+        for entry in entries:
+            check += 1
+        if check == 0:
+            offset = 0
+        
+        self.render("blogs.html", entries = entries, cached = seconds, offset = str(offset))
+
+    def get(self,product_id):
+        self.render_front(product_id)
+
+
 
 class SignUp(BaseHandler):
     def get(self):
@@ -510,6 +529,18 @@ class Logout(BaseHandler):
 
         self.redirect(users.create_logout_url('/'))
 
+class AdminHandler(BaseHandler):
+    def get(self):
+        user = users.get_current_user()
+
+        if users.is_current_user_admin():
+            entries = Entry.query().order(-Entry.created)
+            self.render('admin/admin.html', entries = entries)
+
+        else:
+
+            self.redirect("/blog/")
+
 
 
 class WelcomeHandler(SignUp):
@@ -536,13 +567,15 @@ class JsonHandler(BaseHandler):
         self.response.out.write(thing)
 
     def get(self):
-        entries = db.GqlQuery("SELECT * FROM Entry ORDER BY created  DESC")
+        entries = Entry.query()
+        entries.order(-Entry.created)
         #p = json.dumps(entries)
         output = []
         for entry in entries:
             dictToAdd ={}
             dictToAdd["content"]= entry.entry
             dictToAdd["subject"]= entry.title
+            dictToAdd["created"]= entry.created.strftime("%B %d %Y")
             output.append(dictToAdd)
 
         self.render(json.dumps(output))
@@ -552,15 +585,19 @@ class JsonHandler(BaseHandler):
 class JsonHandlerPerma(JsonHandler):
     def get(self,product_id):
         ID=int(product_id)
-        entry = db.GqlQuery("SELECT * FROM Entry where __key__ = KEY('Entry', %s)" %ID)
+        entry = Entry.get_by_id(ID)
 
          
         #p = json.dumps(entries)
         output = []
        
         dictToAdd ={}
-        dictToAdd["content"]= entry[0].entry
-        dictToAdd["subject"]= entry[0].title
+        dictToAdd["content"]= entry.entry
+        dictToAdd["htmlcontent"]= entry.markdown_content()
+        dictToAdd["subject"]= entry.title
+        dictToAdd["created"]= entry.created.strftime("%B %d %Y")
+        dictToAdd["link"]= entry.permalink()
+
         self.render(json.dumps(dictToAdd))
 
 class Flush(BaseHandler):
@@ -569,38 +606,83 @@ class Flush(BaseHandler):
         self.redirect("/blog/")
 
 
+
 class EditPage(BaseHandler):#edits the page
+
     def get(self,page_id):
+        user = users.get_current_user()
+
+        if users.is_current_user_admin():
        
-        page_id = str(page_id)
-         
-        query = db.GqlQuery("SELECT * FROM Entry where __key__ = KEY('Entry', %s)" %page_id)
-
+            page_id = int(page_id)
+   
         
+            entry = Entry.get_by_id(page_id)
 
-        if len(list(query)) != 0: 
-            entry =query[0]
-            
-            # name = entry.name
-            # content = entry.entry
+   
 
-            self.render("edit.html", entry= entry )
+            if entry: 
+                
+                
+                # name = entry.name
+                # content = entry.entry
+
+                self.render("edit.html", entry= entry )
         else:
             self.redirect('/blog')
 
 
     def post(self,page_id):
-        page_id = str(page_id)
-         
-        query = db.GqlQuery("SELECT * FROM Entry where __key__ = KEY('Entry', %s)" %page_id)
+        user = users.get_current_user()
 
+        if users.is_current_user_admin():
        
-        edit =  query[0]
-        edit.title = self.request.get("title")
-        edit.entry = self.request.get("entry")
+            page_id = int(page_id)
+   
         
-        edit.put()
-        self.redirect("../%s" % str(page_id))
+            edit = Entry.get_by_id(page_id)
+
+   
+
+            edit.title = self.request.get("title")
+            edit.entry = self.request.get("entry")
+            
+            edit.set_entry_html()
+                
+            edit.put()
+            memcache.delete("top")
+            self.redirect("../%s" % str(page_id))
+
+class DeletePage(BaseHandler):#edits the page
+
+
+    def post(self,page_id):
+
+        if users.is_current_user_admin():
+             
+            entry = Entry.get_by_id( int(page_id) )
+          
+
+            
+            entry.key.delete()
+            self.redirect("/blog" )
+
+class Pages(BaseHandler):
+
+     def get(self,pages):
+        try: 
+        
+           page = "pages/" +pages + ".html" 
+           self.render(page)
+        except:
+
+          self.redirect('/404.html')
+
+class Error(BaseHandler):
+     def get(self):
+
+        self.response.set_status(404)
+        self.render('pages/404.html')
 
 
 
@@ -612,16 +694,23 @@ class EditPage(BaseHandler):#edits the page
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
+
+
     ('/container', LoadPlan),
     ('/clear', Clear),
+    ('/badmin', AdminHandler),
     ('/blog/flush', Flush),
     ('/blog/newpost', NewPost),
-    ('/blog/signup', SignUp),
     ('/blog/entries/(\d+).json', JsonHandlerPerma),
     ('/blog/entries/_edit/(\d+)', EditPage),
+    ('/blog/entries/_delete/(\d+)', DeletePage),
+    ('/blog/next/(\d+)', Offsetentries),
     ('/blog/entries/(\d+)', Entries),
     ('/blog/.json', JsonHandler),
     ('/blog/welcome', WelcomeHandler),
     ('/blog/login', Login),
     ('/blog/logout', Logout), 
-    ('/blog/?', Blog)], debug=True)
+    ('/blog/?', Blog),
+    ('/404.html', Error),
+    ('/(.+)', Pages)
+    ], debug=True)

@@ -1,33 +1,61 @@
-<!DOCTYPE html>
-<link rel="stylesheet" href="../css/normalize.css" type="text/css" media="screen">
-<html>
-<head>
-<title>
-Edit post
-</title>
-<link rel="stylesheet" href="css/normalize.css" type="text/css" media="screen">
-</head>
-<body>
 
 
-<form method="post">
-	<label>
-		<div>Key</div>
-		<input type ="text" name="Key" value="{{entry.key()}}">
-		<div>Key</div>
-		<input type ="text" name="created" value="{{entry.created}}">
-		<div>Title</div>
-		<input type ="text" name="title" value="{{entry.title}}">
-	</label>
-	<br>
-	<label>
-		<div>New Entry</div>
-		<textarea name="entry" >{{entry.entry}}</textarea>
-	</label>
-	<br>
-	<div class="error">{{error}}</div>
+{% extends "navigation/nav_bar.html"%}
+		 {% block content %}
+		 <div id="newpost-content">
 
-	<input type="submit">
-</form>
-</body>
-</html>
+			<form method="post">
+				<ul>
+				 <li>
+
+		
+
+				   	<input type ="hidden" name="Key" value="{{entry.key}}">
+					<input type ="hidden" name="created" value="{{entry.created}}">
+		
+		  			<input type ="text" name="title" value="{{entry.title}}">Title</input>
+				 </li>
+				 
+				 <li>
+
+					<textarea contenteditable="true" spellcheck="true" name="entry" id="content" oninput="this.editor.update()" >{{entry.entry}}</textarea>
+				</li>
+
+				
+				<li class="error">
+					{{error}}
+				</li>
+				<li>
+
+				<input type="submit">
+				</li>
+
+			</form>
+		</div>
+
+
+		<div id="newpost-preview" >
+		 
+		</div>
+
+	
+
+		   <script >
+		      function Editor(input, preview) {
+		        this.update = function () {
+		          preview.innerHTML = markdown.toHTML(input.value);
+		        };
+		        input.editor = this;
+		        this.update();
+		      }
+		      var $ = function (id) { return document.getElementById(id); };
+		      new Editor($("content"), $("newpost-preview"));
+		 </script>
+		    
+
+
+
+
+            
+             {% endblock %}
+

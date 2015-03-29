@@ -1,0 +1,72 @@
+
+{% extends "navigation/nav_bar.html"%}
+		 {% block content %}
+		 <div id="newpost-content">
+
+			<form action= "/blog/newpost" method="post">
+				<ul>
+				 <li>
+
+				   <input type ="text" name="subject" value="{{title}}" >Title</input>
+				 </li>
+				 
+				 <li>
+
+					<textarea name="content" id="content" oninput="this.editor.update()" ></textarea>
+				</li>
+
+				
+				<li class="error">
+					{{error}}
+				</li>
+				<li>
+
+				<input type="submit">
+				</li>
+
+			</form>
+		</div>
+
+
+		<div id="newpost-preview">
+		 
+		</div>
+
+       	<script src="../js/lib/markdown.js"></script>
+	
+
+		    <script >
+		      function Editor(input, preview) {
+		        this.update = function () {
+		          preview.innerHTML = markdown.toHTML(input.value);
+		        };
+		        input.editor = this;
+		        this.update();
+		      }
+		      var $ = function (id) { return document.getElementById(id); };
+		      new Editor($("content"), $("newpost-preview"));
+		 </script>
+		    
+
+
+            <div id="posts-to-edit">
+               <p> Posts to edit </p>
+                <ul>
+                {% for entry in entries %}
+                    
+                    <li><a href="/blog/entries/_edit/{{entry.key.id()}}">{{entry.title}} {{entry.created}}</a></li>
+                    <form action="/blog/entries/_delete/{{entry.key.id()}}" method="post">
+                    <button type="submit">delete</button>
+                    </form>
+                    
+
+                {% endfor %}
+                
+                </ul>
+
+            </div>
+
+            
+             {% endblock %}
+
+
