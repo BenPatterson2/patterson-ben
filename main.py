@@ -228,8 +228,8 @@ class LoadPlan(BaseHandler):
         """
 
         format = lambda x: 0 if not self.request.get(x) else abs(float(self.request.get(x)))
-
-        pcs = max(int(self.request.get("pcs")),1) 
+        pc = self.request.get("pcs") or 1
+        pcs = max( int(pc),1) 
         dims = [ format(dim) for dim in ["length","width","height"]]
        
         metric = self.request.get("metric")  if self.request.get("metric")  else "0"
