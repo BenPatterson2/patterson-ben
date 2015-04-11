@@ -1,9 +1,6 @@
-patterson-ben
-=============
+#Ben Patterson's Personal Site
 
-This is a mess and I'm working on cleaning up the code. It's a combination of the code for a project for a web development 
-class and the code for my dimensional weight calculator. 
 
-I'm currently cleaning up the code for the blog for another project. I'm hoping to rewrite most of the dim weight calculator after studying javascript.
+Welcome to the github for my personal site. There's not much to see here and I doubt you could really resuse anything but have fun looking around.
 
-Runs on google app engine, uses jinja.
+If you want to run this.. I guess you'll have to clone it and download google app engine loader for python.

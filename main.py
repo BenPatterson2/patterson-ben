@@ -38,6 +38,7 @@ import urllib2
 import logging
 import datetime 
 
+from google.appengine.api import urlfetch
 from google.appengine.api import memcache
 from google.appengine.api import users
 from google.appengine.ext import db
@@ -567,8 +568,7 @@ class JsonHandler(BaseHandler):
         self.response.out.write(thing)
 
     def get(self):
-        entries = Entry.query()
-        entries.order(-Entry.created)
+        entries = Entry.query().order(-Entry.created)
         #p = json.dumps(entries)
         output = []
         for entry in entries:
@@ -667,6 +667,28 @@ class DeletePage(BaseHandler):#edits the page
             entry.key.delete()
             self.redirect("/blog" )
 
+class RestoreBackup(BaseHandler):
+
+     def get(self):
+        result = urlfetch.fetch('http://benpatterson.io/blog/.json')
+        data = json.loads(result.content)
+        ndb.delete_multi([m.key for m in
+        Entry.query()])
+
+        for entry in data:
+            e = Entry(title =entry['subject'],
+                      entry = entry['content'], 
+                      created = datetime.datetime.strptime(entry['created'], "%B %d %Y") 
+                      )
+            e.set_entry_html()
+            e.put()
+            
+        self.redirect('/blog')
+
+
+
+
+
 class Pages(BaseHandler):
 
      def get(self,pages):
@@ -709,7 +731,9 @@ app = webapp2.WSGIApplication([
     ('/blog/.json', JsonHandler),
     ('/blog/welcome', WelcomeHandler),
     ('/blog/login', Login),
-    ('/blog/logout', Logout), 
+    ('/blog/logout', Logout),
+    #('/blog/syncwebsite', RestoreBackup),
+    #remove this and visit locally to sync site  
     ('/blog/?', Blog),
     ('/404.html', Error),
     ('/(.+)', Pages)
