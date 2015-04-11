@@ -23,7 +23,11 @@ import os
 import re
 from string import letters
 import utils.CBM
+
+#models
 from models.entry import *
+from models.portfolio import *
+
 
 import hashlib
 import hmac
@@ -556,11 +560,7 @@ class WelcomeHandler(SignUp):
         self.render("welcome.html",username=username)   
 
 class JsonHandler(BaseHandler):
-    #get the page  in the handline
-    
-    #write to a string in Json
 
-    #render to page
     def render(self, thing):
 
         self.response.headers['Content-Type'] = 'application/json'   
@@ -733,7 +733,7 @@ app = webapp2.WSGIApplication([
     ('/blog/login', Login),
     ('/blog/logout', Logout),
     #('/blog/syncwebsite', RestoreBackup),
-    #remove this and visit locally to sync site  
+    #remove this and visit locally to sync  do not remove on main site
     ('/blog/?', Blog),
     ('/404.html', Error),
     ('/(.+)', Pages)
