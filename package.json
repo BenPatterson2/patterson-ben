@@ -1,0 +1,36 @@
+{
+  "name": "benpatterson.io",
+  "version": "2.0.0",
+  "description": "Ben Patterson's personal website",
+  "main": "main.py",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install-dependencies": "npm install; pip install -t lib -r benpatterson.io/requirements.txt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BenRuns/patterson-ben.git"
+  },
+  "keywords": [
+    "python",
+    "google",
+    "app",
+    "engine",
+    "blog"
+  ],
+  "author": "Ben@benpatterson.io",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BenRuns/patterson-ben/issues"
+  },
+  "homepage": "https://github.com/BenRuns/patterson-ben#readme",
+  "devDependencies": {
+    "browserify": "^14.1.0"
+  },
+  "dependencies": {
+    "markdown-js": "0.0.3"
+  }
+}

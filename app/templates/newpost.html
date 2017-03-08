@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="../css/normalize.css" type="text/css" media="screen">
+<html>
+<head>
+<title>
+{[username]} new post
+</title>
+<link rel="stylesheet" href="css/normalize.css" type="text/css" media="screen">
+</head>
+<body>
+
+
+<form method="post">
+	<label>
+		<div>Title</div>
+		<input type ="text" name="subject" value="{{title}}">
+	</label>
+	<br>
+	<label>
+		<div>New Entry</div>
+		<textarea name="content" >{{entry}}</textarea>
+	</label>
+	<br>
+	<div class="error">{{error}}</div>
+
+	<input type="submit">
+</form>
+</body>
+</html>
+
+
+

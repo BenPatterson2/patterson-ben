@@ -1,0 +1,2 @@
+Flask==0.12
+Markdown==2.6.8
