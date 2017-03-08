@@ -1,9 +1,9 @@
 from setuptools import setup
 
 setup(
-    name='benpatterson.io',
-    packages=['lib'],
-    include_package_data=False,
+    name='website',
+    packages=['app'],
+    include_package_data=True,
     install_requires=[
         'flask',
     ],
@@ -11,6 +11,6 @@ setup(
         'pytest-runner',
     ],
     tests_require=[
-        'pytest','lib'
+     'pytest','lib', 'app'
     ],
 )

@@ -1,3 +1,8 @@
 lib
 node_modules
 env
+.eggs
+.cache
+website.egg-info
+app/__pycache__
+tests/__pycache__

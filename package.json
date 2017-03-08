@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "python setup.py test",
     "install-dependencies": "npm install; pip install -t lib -r benpatterson.io/requirements.txt"
   },
   "repository": {

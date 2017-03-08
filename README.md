@@ -38,13 +38,12 @@
       
       if developing in [c9.io](http://c9.io)
       
-        $ dev_appserver.py --host=$IP --port=$PORT app.yaml`
+        $ dev_appserver.py --host=$IP --port=$PORT app.yaml
 ## Testing
 
-1. Install [pytest](http://doc.pytest.org/en/latest/)
+1. Run the tests
     
-        $ pip install pytest`
-2. Run the tests
+        $ npm test 
     
         
 ## Deploy
@@ -57,7 +56,7 @@
 - Adding a new python package
     
         $ pip install  <package name> -t lib `
-    make sure to add the new package information to `requirements.txt`. 
+    Make sure to add the new package information to `requirements.txt`! 
 
 - Adding a new node.js package
     

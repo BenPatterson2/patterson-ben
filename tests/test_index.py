@@ -1,5 +1,5 @@
 
-import main
+from app import main
 import os
 import unittest
 
@@ -17,5 +17,4 @@ class HelloWorldCase(unittest.TestCase):
         assert r.status_code == 200
         assert 'Ben Patterson' in r.data.decode('utf-8')
 
-if __name__ == '__main__':
-    unittest.main()
+
