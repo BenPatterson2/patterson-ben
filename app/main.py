@@ -15,18 +15,50 @@
 # [START app]
 import logging
 import os
+import re
+
 
 from flask import Flask
 from flask import render_template
+from flask import request
+from models.entry import *
 
 
 app = Flask(__name__)
+
+
+allowed_args = {
+  'offset':lambda x: False if re.match('^\d+$', x) == None else True,
+}
 
 
 @app.route('/')
 def front():
     """Show the front page"""
     return render_template('layouts/front.html')
+
+@app.route('/blog')
+def blog(title="",entry="",error=""):
+    """Show the blog"""
+    offset = get_url_arg('offset')
+    entries =get_entries(offset)
+
+    next_offset = 10;
+    if len(entries) < 10:
+        next_offset = 0;
+    elif offset != '':
+        next_offset += int(offset)
+    return render_template('blog.html',
+        title=title,
+        entry=entry,
+        error=error,
+        entries=entries,
+        offset= str(next_offset)
+     )
+
+
+
+
 
 
 @app.errorhandler(500)
@@ -36,3 +68,17 @@ def server_error(e):
     An internal error occurred: <pre>{}</pre>
     See logs for full stacktrace.
     """.format(e), 500
+
+
+#####
+# HELPERS
+####
+def get_entries(offset):
+    real_offset = int(offset) if offset != '' else 0;
+    return  Entry.query().order(-Entry.created).fetch(10, offset=real_offset)
+
+def get_url_arg(argname):
+    test = allowed_args[argname];
+    value = request.args.get('offset', '')
+    assert value == '' or test(value)
+    return value

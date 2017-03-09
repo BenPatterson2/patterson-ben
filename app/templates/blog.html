@@ -7,11 +7,11 @@
                 <h1 >Ben's Blog</h1>
 
             <div class="blogs">
-                
+
             {% for entry in entries%}
                  <div class="entry">
                     <a href="/blog/entries/{{entry.key.id() }}" class="entry-title">
-                        
+
                             {{entry.title}}
                     </a>
 
@@ -26,7 +26,7 @@
 
                  </div>
             {% endfor %}
-            {% if offset != '0' %} 
+            {% if offset != '0' %}
                 <a href="/{{ 'blog/next/' + offset }}"  >
                         Next 10 entries
                  </a>
@@ -34,8 +34,6 @@
                 <p> </p>
             {% endif %}
             
-
-            QUERIED {{cached}} seconds ago
 
             </div>
 
@@ -45,18 +43,18 @@
                     <a href="/blog/entries/{{entry.key.id()}}" class="entry-date blogs-nav-li" >
                         <li ><p>{{entry.title}}</p><p>{{entry.nice_created()}}</p></li>
                     </a>
-                    
+
 
                 {% endfor %}
 
 
-                    
+
 
                 </ul>
 
                 {% block github %}
                  {{super()}}
-               
+
 
 
                 {% endblock github %}

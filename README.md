@@ -49,7 +49,9 @@
 
         $ npm test
   It might take a little while to install a few extra requirements the first
-  time
+  time. The npm test command is configured with a path to the google-cloud-sdk in
+  `package.json` under scripts. You might have to find the location of your own
+  installation and and adjust accordingly
 
 ## Deploy
 
@@ -72,6 +74,7 @@ See the app folder for most of the code
 
 
  ### Resources
+ - Unit testing with app engine https://cloud.google.com/appengine/docs/standard/python/tools/localunittesting
  - Idea for test setup
    ** Flask setup http://flask.pocoo.org/docs/0.12/tutorial/testing/
    ** http://stackoverflow.com/questions/1896918/running-unittest-with-typical-test-directory-structure !
