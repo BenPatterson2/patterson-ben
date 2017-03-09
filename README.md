@@ -3,65 +3,71 @@
 
 ## Requirements
 
-- [Google App Engine for Python](https://cloud.google.com/appengine/docs/flexible/python/quickstart)
+- Google App Engine for Python
+  - Ubuntu:  [https://cloud.google.com/sdk/docs/#deb](https://cloud.google.com/sdk/docs/#deb)
+  - Mac: [https://cloud.google.com/sdk/docs/#mac](https://cloud.google.com/sdk/docs/#mac)
 - [pip](http://pip.readthedocs.io/en/stable/)
-- [Node](https://nodejs.org/en/)
+- [Node.js](https://nodejs.org/en/)
 
 ## Run Locally
 
 1. Clone the repo
-    
+
         $ git clone git@github.com:BenRuns/patterson-ben.git
- 
+
 2. Set up a python virual env
-  
+
     If you don't have [virtualenv](https://virtualenv.pypa.io/en/stable/) installed  `$ sudo pip install virtualenv`
-    
-        $ cd patterson-ben
-        $ virtualenv env
-    
+
+       $ cd patterson-ben
+       $ virtualenv env
+
     To activate the environment
-    
+
         $ . env/bin/activate
-    
+
     To deactivate the env
-    
+
         $ deactivate
 
 3. Install the dependencies
-    
+
         $ npm run install-dependencies
 
 4.  Run the app
-    
-        $ dev_appserver.py --port=9999 app.yaml
-      
+
+        $ dev_appserver.py app.yaml
+      The app should be visble on http://localhost:8080
+
       if developing in [c9.io](http://c9.io)
-      
+
         $ dev_appserver.py --host=$IP --port=$PORT app.yaml
+
 ## Testing
 
 1. Run the tests
-    
-        $ npm test 
-    
-        
+
+        $ npm test
+  It might take a little while to install a few extra requirements the first
+  time
+
 ## Deploy
 
     gcloud app deploy
 
 
-## Development 
+## Development Notes
 
 - Adding a new python package
-    
-        $ pip install  <package name> -t lib `
-    Make sure to add the new package information to `requirements.txt`! 
+
+        $ pip install  <package name> -t lib
+    Make sure to add the new package information to `requirements.txt`!
 
 - Adding a new node.js package
-    
-        $ npm install <package name> --save`
 
+        $ npm install <package name> --save
+
+See the app folder for most of the code
 
 
 

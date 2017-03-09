@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "python setup.py test",
-    "install-dependencies": "npm install; pip install -t lib -r benpatterson.io/requirements.txt"
+    "install-dependencies": "npm install; pip install -t lib -r app/requirements.txt"
   },
   "repository": {
     "type": "git",
