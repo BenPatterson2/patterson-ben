@@ -3,7 +3,7 @@ from app import main
 import os
 import unittest
 
-class TestUser(unittest.TestCase):
+class TestAdminApi(unittest.TestCase):
 
     def setUp(self):
         main.app.testing = True

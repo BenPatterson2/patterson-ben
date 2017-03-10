@@ -36,7 +36,7 @@
 
 4.  Run the app
 
-        $ dev_appserver.py app.yaml
+        $ npm run start-dev
       The app should be visble on http://localhost:8080
 
       if developing in [c9.io](http://c9.io)

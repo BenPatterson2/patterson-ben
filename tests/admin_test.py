@@ -3,7 +3,7 @@ from app import main
 import os
 import unittest
 
-class TestAdmin(unittest.TestCase):
+class TestAdminView(unittest.TestCase):
 
     def setUp(self):
         main.app.testing = True
@@ -12,14 +12,4 @@ class TestAdmin(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_login(self):
-        pass
-
-    def test_edit(self):
-        pass
-
-    def test_delete(self):
-        pass
-
-
-
+#Test can access the api page 

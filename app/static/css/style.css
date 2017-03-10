@@ -9,7 +9,7 @@ html, body{
 	margin: auto;
 
 	width: 100%;
-	
+
 	font-family: 'Raleway', sans-serif;
 	letter-spacing: 1.2px;
 }
@@ -52,17 +52,17 @@ code{
 
 
 div h3 {
-	
+
 
 	padding: 10px;
 	border-bottom: 3px solid lightgrey;
 	letter-spacing: 1px;
 	background: linear-gradient(white 95%,grey);
-	
+
 	color: black;
-	
-	
-	margin: 0;	
+
+
+	margin: 0;
 }
 
 div li{
@@ -122,14 +122,14 @@ a:active{
 a.twitter-icon:hover,
 a.linkedin-icon:hover{
 	background-color: rgba(0,0,0,.1);
-	
+
 
 }
 .twitter-icon{
-	background:url(/static/imgs/twitter.svg) center center no-repeat; 
+	background:url(/static/imgs/twitter.svg) center center no-repeat;
 }
 .linkedin-icon{
-  background:url(/static/imgs/linkedin.svg) center center no-repeat; 
+  background:url(/static/imgs/linkedin.svg) center center no-repeat;
 
 }
 /***
@@ -168,12 +168,12 @@ About me section
 	margin-top: 30px;
 	margin-right: 2%;
 
-	
+
 }
 
 .introduction li{
 	width: 45%;
-	
+
 	height: 100%;
 }
 .introduction a{
@@ -227,12 +227,12 @@ margin-left: 12px;
 	overflow: scroll;
 }
 	#overlay img{
-		
+
 		max-width: 100%;
 		max-height: 100%;
 		margin-top: 8%;
 
-	
+
 	}
 	#overlay iframe{
 		width: 90%;
@@ -265,7 +265,7 @@ github feed
 
  .blogs, .blogs-nav {
  	background-color: white;
-	 
+
  }
 
  .blogs{
@@ -302,7 +302,7 @@ p.entry-date.blogs-nav-li{
 }
 .entry-date {
 	float: right;
-	
+
 }
 .entry-title, .entry-body{
 	float: left;
@@ -395,7 +395,7 @@ container specific
 		width: 100px;
 		padding: 8px;
 		background-color: white;
-	
+
 	}
 	.introduction li{
 		width: 97%;
@@ -403,7 +403,7 @@ container specific
 	.right_nav{
 	width: 92%;
 	margin-left: 8px;
-	
+
     }
     .portfolio{
    	width: 92%;
@@ -414,7 +414,7 @@ container specific
     .blogs{
     	width: 85%;
     	margin: 0;
-  
+
     }
 
 }
