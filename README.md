@@ -15,20 +15,6 @@
 
         $ git clone git@github.com:BenRuns/patterson-ben.git
 
-2. Set up a python virual env
-
-    If you don't have [virtualenv](https://virtualenv.pypa.io/en/stable/) installed  `$ sudo pip install virtualenv`
-
-       $ cd patterson-ben
-       $ virtualenv env
-
-    To activate the environment
-
-        $ . env/bin/activate
-
-    To deactivate the env
-
-        $ deactivate
 
 3. Install the dependencies
 
