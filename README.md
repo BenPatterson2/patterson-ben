@@ -63,7 +63,7 @@
 - Clients
   Both the admin client and the main page client were creacted using
   [create-react-app](https://github.com/facebookincubator/create-react-app)
-  cd into client or admin-client directories and you'll get all the tools you
+  cd into client directory and you'll get all the tools you
   get with create-react-app
 
 - NPM workflows

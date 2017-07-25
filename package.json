@@ -8,16 +8,14 @@
   "scripts": {
     "start-c9":"npm run start-dev --host=$IP --port=$PORT ",
     "start-dev":"dev_appserver.py app.yaml",
-    "build":"npm run build-client; npm run build-admin-client",
+    "build":"npm run build-client;",
     "start-client": "cd ./client; ./node_modules/.bin/react-scripts start",
     "start-admin-client": "cd ./admin-client; ./node_modules/.bin/react-scripts start",
     "build-client": "cd ./client; ./node_modules/.bin/react-scripts build",
-    "build-admin-client": "cd ./admin-client; ./node_modules/.bin/react-scripts build",
     "deploy":"npm run build; gcloud app deploy",
     "test": "python test_runner.py /usr/lib/google-cloud-sdk --test-path server-side-tests",
     "install-client-dependencies":"cd ./client; npm install",
-    "install-admin-client-dependencies":"cd ./admin-client; npm install",
-    "install-dependencies": "npm install; pip install -t python_modules -r requirements.txt; npm run install-client-dependencies; npm run install-admin-client-dependencies"
+    "install-dependencies": "npm install; pip install -t python_modules -r requirements.txt; npm run install-client-dependencies;"
   },
   "repository": {
     "type": "git",
