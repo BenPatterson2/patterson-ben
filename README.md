@@ -56,7 +56,7 @@
 
 ## Deploy
 
-    run npm deploy
+    npm run deploy
 
 
 ## Development Notes

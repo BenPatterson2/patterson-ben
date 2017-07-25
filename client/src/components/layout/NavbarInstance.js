@@ -12,7 +12,6 @@ export default class NavbarInstance extends Component{
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
-            <NavItem eventKey={1} ><Link to="/blog">Blog</Link> </NavItem>
             <NavItem eventKey={2} href="#"><Link to="/about-me">About Me</Link></NavItem>
             <NavItem eventKey={2} href="#"><Link to="/contact">Contact</Link></NavItem>
           </Nav>
