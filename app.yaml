@@ -1,37 +1,34 @@
-application: patterson-ben
-version: 1
-runtime: python27
-api_version: 1
-threadsafe: yes
+threadsafe: true
 
 handlers:
-- url: /favicon.ico
-  static_files: favicon.png
-  upload: favicon.png
 
-- url: /robots.txt
-  static_files: robots.txt
-  upload: robots.txt
+ - url: /micro-manager/static
+   static_dir: admin-client/build/static
+   login: admin
 
-- url: /css
-  static_dir: assets/css
+ - url: /micro-manager/login
+   script: app.main.app
 
-- url: /js
-  static_dir: assets/js
+ - url: /micro-manager/logout
+   script: app.main.app
 
-- url: /imgs
-  static_dir: assets/imgs
+ - url: /micro-manager(\/?)
+   static_files: admin-client/build/index.html
+   upload: admin-client/build/.*\.html$
+   login: admin
 
-- url: .*
-  script: main.app
+ - url: /api/(.*)
+   script: app.main.app
 
+ - url: /static
+   static_dir: client/build/static
 
+ - url: /(.*)
+   static_files: client/build/index.html
+   upload: client/build/.*\.html$
 
-libraries:
-- name: webapp2
-  version: "2.5.2"                                                               
-- name: jinja2                                                                  
-  version: latest                                                               
-- name: markupsafe                                                              
-  version: latest  
-
+skip_files:
+- ^(node_modules/.*)
+- ^(admin-client/node_modules/.*)
+- ^(client/node_modules/.*)
+- ^(tests/.*)

@@ -1,2 +1,10 @@
-dos.yaml
-robots.txt
+python_modules
+node_modules
+npm-debug.log
+env
+.eggs
+.cache
+*.pyc
+website.egg-info
+app/__pycache__
+tests/__pycache__

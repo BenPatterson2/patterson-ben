@@ -1,0 +1,46 @@
+{
+  "version": "2.0.0",
+  "description": "Ben Patterson's personal website",
+  "main": "main.py",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start-c9":"npm run start-dev --host=$IP --port=$PORT ",
+    "start-dev":"dev_appserver.py app.yaml",
+    "build":"npm run build-client; npm run build-admin-client",
+    "start-client": "cd ./client; ./node_modules/.bin/react-scripts start",
+    "start-admin-client": "cd ./admin-client; ./node_modules/.bin/react-scripts start",
+    "build-client": "cd ./client; ./node_modules/.bin/react-scripts build",
+    "build-admin-client": "cd ./admin-client; ./node_modules/.bin/react-scripts build",
+    "deploy":"npm run build; gcloud app deploy",
+    "test": "python test_runner.py /usr/lib/google-cloud-sdk --test-path server-side-tests",
+    "install-client-dependencies":"cd ./client; npm install",
+    "install-admin-client-dependencies":"cd ./admin-client; npm install",
+    "install-dependencies": "npm install; pip install -t python_modules -r requirements.txt; npm run install-client-dependencies; npm run install-admin-client-dependencies"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BenRuns/patterson-ben.git"
+  },
+  "keywords": [
+    "python",
+    "google",
+    "app",
+    "engine",
+    "blog"
+  ],
+  "author": "ben@benpatterson.io",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BenRuns/patterson-ben/issues"
+  },
+  "homepage": "https://github.com/BenRuns/patterson-ben#readme",
+  "devDependencies": {
+    "browserify": "^14.1.0",
+    "q": "^1.4.1"
+  },
+  "jshint": {
+    "esversion": 6
+  }
+}
