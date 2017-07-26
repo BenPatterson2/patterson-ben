@@ -1,5 +1,7 @@
-import AboutMe from './components/AboutMe';
+import Home from './components/Home';
 import Contact from './components/Contact';
+import Blog from './components/Blog';
+import Portfolio from './components/Portfolio';
 import Layout from './layout/Layout';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -18,9 +20,11 @@ const app =  document.getElementById('root');
 ReactDOM.render(
   <Router>
     <Layout>
-        <Route exact path="/" component={AboutMe}/>
-        <Route path="/about-me" component={AboutMe}></Route>
+        <Route exact path="/" component={Home}/>
+        <Route path="/home" component={Home}></Route>
+        <Route path="/blog" component={Blog}></Route>
         <Route path="/contact" component={Contact}></Route>
+        <Route path="/portfolio" component={Portfolio}></Route>
     </Layout>
   </Router>,
  app
