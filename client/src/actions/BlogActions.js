@@ -1,23 +1,12 @@
 import dispatcher from "../dispatcher";
-import request from "reaquest-promise-native";
-
-export function createTodo(id) {
-  dispatcher.dispatch({
-    type: "CREATE_TODO",
-    text,
-  });
-}
+import request from "request-promise-native";
 
 
 
-export function reloadTodos() {
+export function getEntries() {
   dispatcher.dispatch({type: "FETCH_ENTRIES"});
-  var myInit = { method: 'GET',
-               mode: 'cors',
-             }
-  request.get({url:"https://patterson-ben.appspot.com/api/blog",json:true})
+  request.get({url:"https://patterson-ben.appspot.com/api/entries",json:true})
   .then((response)=>{
-    console.log(response);
-    dispatcher.dispatch({type: "RECIEVE_ENTRIES", payload: response.json });
+    dispatcher.dispatch({type: "RECEIVE_ENTRIES", entries: response.entries });
   });
 }

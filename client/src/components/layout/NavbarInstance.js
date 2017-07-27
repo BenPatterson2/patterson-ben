@@ -14,10 +14,10 @@ export default class NavbarInstance extends Component{
 
         <Navbar.Collapse>
           <Nav>
-            <NavItem eventKey={2} href="#"><Link to="/portfolio">Portfolio</Link></NavItem>
-            <NavItem eventKey={2} href="#"><Link to="/contact">Contact</Link></NavItem>
-            <NavItem eventKey={2} href="#"><Link to="/blog">Blog</Link></NavItem>
-        </Nav>
+            <NavItem eventKey={2} href="/portfolio"><Link to="portfolio" >Portfolio</Link></NavItem>
+            <NavItem eventKey={2} href="/contact"><Link to="/contact">Contact</Link></NavItem>
+            <NavItem eventKey={2} href="/blog"><Link to="/blog">Blog</Link></NavItem>
+          </Nav>
         </Navbar.Collapse>
       </Navbar>
     );

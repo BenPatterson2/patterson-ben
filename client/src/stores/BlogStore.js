@@ -2,47 +2,20 @@ import { EventEmitter } from "events";
 
 import dispatcher from "../dispatcher";
 
-class TodoStore extends EventEmitter {
+class BlogStore extends EventEmitter {
   constructor() {
-    super()
-    this.todos = [
-      {
-        id: 113464613,
-        text: "Go Shopping",
-        complete: false
-      },
-      {
-        id: 235684679,
-        text: "Pay Water Bill",
-        complete: false
-      },
-    ];
-  }
-
-  createTodo(text) {
-    const id = Date.now();
-
-    this.todos.push({
-      id,
-      text,
-      complete: false,
-    });
-
-    this.emit("change");
+    super();
+    this.entries = [];
   }
 
   getAll() {
-    return this.todos;
+    return this.entries;
   }
 
   handleActions(action) {
     switch(action.type) {
-      case "CREATE_TODO": {
-        this.createTodo(action.text);
-        break;
-      }
-      case "RECEIVE_TODOS": {
-        this.todos = action.todos;
+      case "RECEIVE_ENTRIES": {
+        this.entries = action.entries;
         this.emit("change");
         break;
       }
@@ -51,7 +24,7 @@ class TodoStore extends EventEmitter {
 
 }
 
-const todoStore = new TodoStore;
-dispatcher.register(todoStore.handleActions.bind(todoStore));
+const blogStore = new BlogStore();
+dispatcher.register(blogStore.handleActions.bind(blogStore));
 
-export default todoStore;
+export default blogStore;
