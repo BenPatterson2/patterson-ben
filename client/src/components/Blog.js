@@ -9,12 +9,12 @@ export default class Blog extends Component {
   constructor() {
   super();
     this.getEntries = this.getEntries.bind(this);
-    BlogActions.getEntries();
     this.state = {
       entries: BlogStore.getAll(),
     };
   }
   componentWillMount() {
+    BlogActions.getEntries();
     BlogStore.on("change", this.getEntries);
   }
 
@@ -25,7 +25,7 @@ export default class Blog extends Component {
   getEntries() {
     this.setState({
       entries: BlogStore.getAll(),
-    })
+    });
   }
 
   renderEntry(entry) {
@@ -36,9 +36,10 @@ export default class Blog extends Component {
   render() {
     const { entries } = this.state;
     const EntryComponents = entries.map((entry)=>{
-      var link = "/blog/entry/" + entry.id
+      var link = "/blog/entry/" + entry.id;
+      var getEntry = function(){ BlogActions.getEntry(entry.id); };
       return <li key={entry.id}>
-           <Link to={link} ><ul>
+           <Link to={link} onClick={getEntry}><ul>
              <li>{entry.created}</li>
              <li>{entry.title}</li>
            </ul>

@@ -17,6 +17,7 @@ export default class BlogEntry extends Component {
 
   componentWillMount() {
     BlogStore.on("change", this.getEntry);
+    console.log(this.id)
   }
 
   componentWillUnmount() {
