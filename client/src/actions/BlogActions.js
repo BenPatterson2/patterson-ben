@@ -10,3 +10,12 @@ export function getEntries() {
     dispatcher.dispatch({type: "RECEIVE_ENTRIES", entries: response.entries });
   });
 }
+
+export function getEntry(id) {
+  dispatcher.dispatch({type: "FETCH_ENTRY"});
+  request.get({url:`https://patterson-ben.appspot.com/api/entry/` + id, json:true})
+  .then((response)=>{
+    console.log(response);
+    dispatcher.dispatch({type: "RECEIVE_ENTRY", entry: response });
+  });
+}
