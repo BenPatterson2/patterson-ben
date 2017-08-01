@@ -95,3 +95,9 @@ See the app folder for most of the code
  - [pytest](http://doc.pytest.org/en/latest/)
  - [building a react router](http://jamesknelson.com/routing-with-raw-react/)
  - [just suck it up and use react-router](https://reacttraining.com/react-router/web/guides/quick-start)
+ 
+ ### TODO
+ - https with let's encrypt and instructions onto the readme
+ - tests on react 
+ - put admin client back in
+ 
