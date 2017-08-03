@@ -1,5 +1,6 @@
 python_modules
 node_modules
+well-known/acme-challenge/
 npm-debug.log
 env
 .eggs

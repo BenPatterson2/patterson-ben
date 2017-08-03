@@ -4,10 +4,9 @@ threadsafe: true
 
 handlers:
 
- - url: /micro-manager/static
-   static_dir: admin-client/build/static
-   login: admin
-
+ - url: /.well-known
+   static_dir: well-known
+   
  - url: /micro-manager/login
    script: app.main.app
 

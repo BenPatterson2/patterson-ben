@@ -84,9 +84,19 @@
 
 See the app folder for most of the code
 
+### SSL setup
+
+ - Using [let's encrypt](https://letsencrypt.org/) with google app engine requires updating
+ the cert every three months
+
+ - [let's encrypt and GAE](https://www.jeffgodwyll.com/posts/2016/letsencrypt/)
+
+    Key difference is using certbot as a command line. See next line
 
 
- ### Resources
+- [installing certbot ubuntu](https://certbot.eff.org/#ubuntuxenial-other)
+
+### Resources
  - Unit testing with app engine https://cloud.google.com/appengine/docs/standard/python/tools/localunittesting
  - Idea for test setup
    ** Flask setup http://flask.pocoo.org/docs/0.12/tutorial/testing/
@@ -94,10 +104,9 @@ See the app folder for most of the code
  - [unittest](https://docs.python.org/2/library/unittest.html) Python's built in test framework
  - [pytest](http://doc.pytest.org/en/latest/)
  - [building a react router](http://jamesknelson.com/routing-with-raw-react/)
- - [just suck it up and use react-router](https://reacttraining.com/react-router/web/guides/quick-start)
- 
+ - [just used react-router](https://reacttraining.com/react-router/web/guides/quick-start)
+
  ### TODO
- - https with let's encrypt and instructions onto the readme
- - tests on react 
+ - tests on react
  - put admin client back in
- 
+
