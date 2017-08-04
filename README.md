@@ -36,7 +36,40 @@
 
         $ npm run start-c9
 
+## API(/api/)
 
+- GET entries?offset=int
+
+   returns entries in groups of ten depending on the offset
+
+- GET  entry/:entry_id
+  returns
+      {
+        title:'title'
+        entry: 'entry'
+      }
+
+
+- POST  entry/
+
+    Creates a new entry
+    login required
+    Data = {
+      title: *required*,
+      entry:*required*
+    }
+
+- PUT  entry/:entry_id
+
+  edits an entry
+    Data = {
+      title: *required*,
+      entry:*required*
+    }
+
+- DELETE  entry/:entry_id
+
+   deletes an entry
 
 ## Testing
 
@@ -107,6 +140,7 @@ See the app folder for most of the code
  - [just used react-router](https://reacttraining.com/react-router/web/guides/quick-start)
 
  ### TODO
+ - fix pagination/replace with something prebuilt
  - tests on react
  - put admin client back in
 
