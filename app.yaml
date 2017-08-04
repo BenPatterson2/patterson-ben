@@ -6,7 +6,7 @@ handlers:
 
  - url: /.well-known
    static_dir: well-known
-   
+
  - url: /micro-manager/login
    script: app.main.app
 

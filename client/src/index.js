@@ -24,6 +24,7 @@ ReactDOM.render(
         <Route exact path="/" component={Home}/>
         <Route path="/home" component={Home}></Route>
         <Route path="/blog/entry/:id" component={BlogEntry}></Route>
+        <Route path="/blogs/:offset" component={Blog}></Route>
         <Route path="/blog" component={Blog}></Route>
         <Route path="/contact" component={Contact}></Route>
         <Route path="/portfolio" component={Portfolio}></Route>

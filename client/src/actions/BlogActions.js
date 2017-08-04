@@ -3,9 +3,9 @@ import request from "request-promise-native";
 
 
 
-export function getEntries() {
+export function getEntries(offset) {
   dispatcher.dispatch({type: "FETCH_ENTRIES"});
-  request.get({url:"https://patterson-ben.appspot.com/api/entries",json:true})
+  request.get({url:`https://patterson-ben.appspot.com/api/entries?offset=${offset}`,json:true})
   .then((response)=>{
     dispatcher.dispatch({type: "RECEIVE_ENTRIES", entries: response.entries });
   });
