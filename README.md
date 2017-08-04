@@ -143,7 +143,7 @@ See the app folder for most of the code
  - [unittest](https://docs.python.org/2/library/unittest.html) Python's built in test framework
  - [pytest](http://doc.pytest.org/en/latest/)
  - [building a react router](http://jamesknelson.com/routing-with-raw-react/)
- - [just used react-router](https://reacttraining.com/react-router/web/guides/quick-start)
+ - [react-router quick-start](https://reacttraining.com/react-router/web/guides/quick-start)
 
  ### TODO
  - fix pagination/replace with something prebuilt
