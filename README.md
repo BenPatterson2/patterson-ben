@@ -52,6 +52,7 @@
 
 - POST  entry/
 
+    ( login required )
     Creates a new entry
     login required
     Data = {
@@ -61,6 +62,8 @@
 
 - PUT  entry/:entry_id
 
+
+  ( login required )
   edits an entry
     Data = {
       title: *required*,
@@ -69,6 +72,8 @@
 
 - DELETE  entry/:entry_id
 
+
+  ( login required )
    deletes an entry
 
 ## Testing
@@ -93,11 +98,12 @@
 
 
 ## Development Notes
-- Clients
-  Both the admin client and the main page client were creacted using
+- Client
+  The client was created using
   [create-react-app](https://github.com/facebookincubator/create-react-app)
   cd into client directory and you'll get all the tools you
-  get with create-react-app
+  get with  
+[create-react-app](https://github.com/facebookincubator/create-react-app)
 
 - NPM workflows
   I'm using the scripts portion of the package.json in this library to make my life easier.

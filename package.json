@@ -10,7 +10,6 @@
     "start-dev":"dev_appserver.py app.yaml",
     "build":"npm run build-client;",
     "start-client": "cd ./client; ./node_modules/.bin/react-scripts start",
-    "start-admin-client": "cd ./admin-client; ./node_modules/.bin/react-scripts start",
     "build-client": "cd ./client; ./node_modules/.bin/react-scripts build",
     "deploy":"npm run build; gcloud app deploy",
     "test": "python test_runner.py /usr/lib/google-cloud-sdk --test-path server-side-tests",
@@ -35,8 +34,6 @@
   },
   "homepage": "https://github.com/BenRuns/patterson-ben#readme",
   "devDependencies": {
-    "browserify": "^14.1.0",
-    "q": "^1.4.1"
   },
   "jshint": {
     "esversion": 6
