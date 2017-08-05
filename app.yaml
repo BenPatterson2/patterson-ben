@@ -23,10 +23,12 @@ handlers:
 
  - url: /static
    static_dir: client/build/static
+   secure: always
 
  - url: /(.*)
    static_files: client/build/index.html
    upload: client/build/.*\.html$
+   secure: always
 
 skip_files:
 - ^(node_modules/.*)
