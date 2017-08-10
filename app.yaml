@@ -9,17 +9,25 @@ handlers:
 
  - url: /micro-manager/login
    script: app.main.app
+   secure: always
 
  - url: /micro-manager/logout
    script: app.main.app
+   secure: always
+
+ - url: /micro-manager/static
+   static_dir: admin-client/build/static
+   secure: always
 
  - url: /micro-manager(\/?)
    static_files: admin-client/build/index.html
    upload: admin-client/build/.*\.html$
    login: admin
+   secure: always
 
  - url: /api/(.*)
    script: app.main.app
+   secure: always
 
  - url: /static
    static_dir: client/build/static
@@ -33,5 +41,7 @@ handlers:
 skip_files:
 - ^(node_modules/.*)
 - ^(admin-client/node_modules/.*)
+- ^(admin-client/src/.*)
+- ^(admin-client/public/.*)
 - ^(client/node_modules/.*)
 - ^(tests/.*)

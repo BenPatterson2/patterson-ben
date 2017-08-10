@@ -14,6 +14,8 @@
     cd client/
     npm install
     npm run build
+## Admin Client
+using https://marmelab.com/admin-on-rest, no auto build yet
 
 ## Run Locally
 
@@ -41,7 +43,9 @@
 
 - `api/entries?offset=int`
 
-   returns entries in groups of ten depending on the offset
+   returns
+       { entries:[entry, entry,...] }
+
 
 - `api/entry/:entry_id` GET
 
@@ -67,7 +71,7 @@
 
   ( login required )
   edits an entry
-  
+
     Request data =
       {
           title: *required*,
