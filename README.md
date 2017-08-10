@@ -24,75 +24,78 @@
 3. Install the dependencies(note, this is NOT npm install)
         $ npm run install-dependencies
 
-4. Build the clients
+4. Build the client
         $ npm run build
 
-5.  Run the app
+5.  Run the app locally
 
         $ npm run start-dev
-      The app should be visible on http://localhost:8080
+    This starts the  app including the google app engine extras at
+    http://localhost:8080
 
       if developing in [c9.io](http://c9.io)
 
         $ npm run start-c9
 
-## API(/api/)
+## API
 
-- GET entries?offset=int
+- `api/entries?offset=int`
 
    returns entries in groups of ten depending on the offset
 
-- GET  entry/:entry_id
+- `api/entry/:entry_id` GET
+
   returns
       {
         title:'title'
         entry: 'entry'
       }
 
+- `api/entry/` POST
 
-- POST  entry/
-
-    ( login required )
+  ( login required )
     Creates a new entry
     login required
-    Data = {
-      title: *required*,
-      entry:*required*
-    }
 
-- PUT  entry/:entry_id
+    Request data =
+      {
+        title: *required*,
+        entry:*required*
+      }
 
+- `api/entry/:entry_id` PUT
 
   ( login required )
   edits an entry
-    Data = {
-      title: *required*,
-      entry:*required*
-    }
+  
+    Request data =
+      {
+          title: *required*,
+          entry:*required*
+      }
 
-- DELETE  entry/:entry_id
-
+- `api/entry/:entry_id` DELETE
 
   ( login required )
    deletes an entry
 
 ## Testing
 
-1. Run the tests
+1. Running the tests
 
         $ npm test
 
-  It might take a little while to install a few extra requirements the first
-  time. The npm test command is configured with a path to the google-cloud-sdk in
-  `package.json` under scripts. You might have to find the location of your own
-  installation and and adjust accordingly
 
-  Running a single group of tests can be done using something like
+  The npm test command is configured with a path to the google-cloud-sdk in
+  `package.json` under scripts.
+  You may have to find the location of your own installation of the google-cloud-sdk and and adjust the package.json file accordingly
+
+  Running a single group of tests can be done using
 
       $ npm test -- --test-pattern blog_test.py
 
 
-## Deploy
+## Deploying
 
     npm run deploy
 
