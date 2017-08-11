@@ -14,8 +14,11 @@
     cd client/
     npm install
     npm run build
+
 ## Admin Client
-using https://marmelab.com/admin-on-rest, no auto build yet
+Built using https://marmelab.com/admin-on-rest
+- in /admin-client
+- Building `npm run build-client`
 
 ## Run Locally
 
@@ -151,9 +154,10 @@ See the app folder for most of the code
  - [pytest](http://doc.pytest.org/en/latest/)
  - [building a react router](http://jamesknelson.com/routing-with-raw-react/)
  - [react-router quick-start](https://reacttraining.com/react-router/web/guides/quick-start)
+ - [admin-panel](https://marmelab.com/admin-on-rest)
 
- ### TODO
+### TODO
  - fix pagination/replace with something prebuilt
  - tests on react
- - put admin client back in
+ - Add more routes that correspond with the admin panel
 
