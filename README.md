@@ -157,7 +157,23 @@ See the app folder for most of the code
  - [admin-panel](https://marmelab.com/admin-on-rest)
 
 ### TODO
- - fix pagination/replace with something prebuilt
- - tests on react
- - Add more routes that correspond with the admin panel
+- fix pagination/replace with something prebuilt
+- tests on react
+
+SEE https://marmelab.com/admin-on-rest/RestClients.html to adjust the following
+
+
+
+- Add get list route with range and filter options
+  (no login )
+- Add a Get MAny route that takes multiple ids
+No login
+- Add GET MANY REFERENCE - search by date, author contains - etc
+no login
+
+### LATER
+- images
+- coments  
+- add ability to run a single test to the test runner. see test_runner.py and https://docs.python.org/2/library/unittest.html for details. This may involve some test refactorring but it should be an improvement overall
+
 

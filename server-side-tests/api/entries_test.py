@@ -37,7 +37,7 @@ class TestEntries(unittest.TestCase):
     def test_entries(self):
         r = self.app.get('api/entries')
         page =  r.data.decode('utf-8')
-        entries =  json.loads(r.data.decode('utf-8'))
+        entries =  json.loads(page)
         assert len(entries['entries']) == 10
         assert entries['entries'][0]['title'] == 'Fake 30'
 
@@ -49,5 +49,10 @@ class TestEntries(unittest.TestCase):
         titles = ['Fake 10', 'Fake 9']
         for title in titles:
             assert title in page
+
+    def test_entries_headers(self):
+        r = self.app.get('api/entries')
+        assert r.status_code == 200
+        assert r.headers['Content-Range'] == '0-10/30'
 
 
