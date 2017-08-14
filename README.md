@@ -173,7 +173,7 @@ no login
 
 ### LATER
 - images
-- coments  
+- comments  
 - add ability to run a single test to the test runner. see test_runner.py and https://docs.python.org/2/library/unittest.html for details. This may involve some test refactorring but it should be an improvement overall
 
 
