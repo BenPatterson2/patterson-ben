@@ -45,5 +45,5 @@ skip_files:
 - ^(admin-client/public/.*)
 - ^(client/node_modules/.*)
 - ^(client/src/.*)
-- ^(client/public/.
+- ^(client/public/.)
 - ^(tests/.*)
