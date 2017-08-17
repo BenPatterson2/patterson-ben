@@ -87,7 +87,6 @@ const convertHTTPResponseToREST = (response, type, resource, params) => {
     case GET_LIST:
 
         let data = json
-        console.log(data);
         return {
             data: data.entries,
             total: data.entries.length,
