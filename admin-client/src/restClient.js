@@ -10,7 +10,7 @@ import {
     fetchUtils,
 } from 'admin-on-rest';
 
-const API_URL = 'https://benpatterson.io/api';
+const API_URL = process.env.NODE_ENV == "production" ? 'https://benpatterson.io/api' : 'http://localhost:8080/api';
 
 /**
  * @param {String} type One of the constants appearing at the top if this file, e.g. 'UPDATE'
@@ -21,13 +21,13 @@ const API_URL = 'https://benpatterson.io/api';
 const convertRESTRequestToHTTP = (type, resource, params) => {
     let url = '';
     const { queryParameters } = fetchUtils;
-    const options = {};
+    const options = { credentials: 'include' };
     switch (type) {
     case GET_LIST: {
         const { page, perPage } = params.pagination;
         const { field, order } = params.sort;
         const query = {
-            offset: page
+            offset: page -1
         };
         let entryPoint = resource == 'entry' ? 'entries' : resource + 's';
         url = `${API_URL}/${entryPoint}?${queryParameters(query)}`;
@@ -65,6 +65,7 @@ const convertRESTRequestToHTTP = (type, resource, params) => {
         options.body = JSON.stringify(params.data);
         break;
     case DELETE:
+        console.log("line 68");
         url = `${API_URL}/${resource}/${params.id}`;
         options.method = 'DELETE';
         break;

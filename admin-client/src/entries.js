@@ -7,14 +7,35 @@ import {
     TextInput,
     DateInput,
     List,
+    ListButton,
     LongTextInput,
     ReferenceManyField,
     Datagrid,
     TextField,
     DateField,
+    Delete,
+    DeleteButton,
     EditButton
   } from 'admin-on-rest';
+import { CardActions } from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
+import NavigationRefresh from 'material-ui/svg-icons/navigation/refresh';
 import MarkdownInput from './aor-markdown-input/src/index';
+
+const cardActionStyle = {
+    zIndex: 2,
+    display: 'inline-block',
+    float: 'right',
+};
+
+const PostEditActions = ({ basePath, data, refresh }) => (
+    <CardActions style={cardActionStyle}>
+        <ListButton basePath={basePath} />
+        <DeleteButton basePath={basePath} record={data} />
+    </CardActions>
+);
+
+
 
 export const EntryList = (props) => (
     <List {...props}>
@@ -22,6 +43,7 @@ export const EntryList = (props) => (
             <TextField source="id" />
             <TextField source="title" />
             <TextField source="entry" />
+            <EditButton />
         </Datagrid>
     </List>
 );
@@ -32,34 +54,34 @@ export const EntryCreate = (props) => (
     <Create {...props}>
         <SimpleForm>
             <TextInput source="title" />
-            <TextInput source="teaser" options={{ multiLine: true }} />
-            <MarkdownInput source="body" elStyle={{
+            <MarkdownInput source="entry" elStyle={{
                 'verticalAlign':'top',
                  height: '300px',
                  width:'400px',
               }} />
-            <DateInput label="Publication date" source="published_at" defaultValue={new Date()} />
         </SimpleForm>
     </Create>
 );
 
+export const EntryDelete = (props) => (
+    <Delete {...props}>
+
+    </Delete>
+);
+
+
 const required = { required:true };
 
 export const EntryEdit = (props) => (
-    <Edit {...props}>
+    <Edit {...props} actions={<PostEditActions />}>
         <SimpleForm>
             <DisabledInput label="Id" source="id" />
-            <TextInput source="title" validate={required} />
-            <LongTextInput source="teaser" validate={required} />
-            <MarkdownInput source="body" validate={required} />
-            <DateInput label="Publication date" source="published_at" />
-            <ReferenceManyField label="Comments" reference="comments" target="post_id">
-                <Datagrid>
-                    <TextField source="body" />
-                    <DateField source="created_at" />
-                    <EditButton />
-                </Datagrid>
-            </ReferenceManyField>
+            <TextInput source="title" />
+            <MarkdownInput source="entry" elStyle={{
+                'verticalAlign':'top',
+                 height: '300px',
+                 width:'400px',
+              }} />
         </SimpleForm>
     </Edit>
 );
