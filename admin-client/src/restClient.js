@@ -9,8 +9,8 @@ import {
     DELETE,
     fetchUtils,
 } from 'admin-on-rest';
-
-const API_URL = process.env.NODE_ENV == "production" ? 'https://benpatterson.io/api' : 'http://localhost:8080/api';
+import markdown from 'markdown';
+const API_URL =  'https://patterson-ben.appspot.com/api'; //window.location.origin  + '/api';
 
 /**
  * @param {String} type One of the constants appearing at the top if this file, e.g. 'UPDATE'
@@ -21,13 +21,13 @@ const API_URL = process.env.NODE_ENV == "production" ? 'https://benpatterson.io/
 const convertRESTRequestToHTTP = (type, resource, params) => {
     let url = '';
     const { queryParameters } = fetchUtils;
-    const options = { credentials: 'include' };
+    const options = {}// { credentials: 'include' };
     switch (type) {
     case GET_LIST: {
         const { page, perPage } = params.pagination;
         const { field, order } = params.sort;
         const query = {
-            offset: page -1
+            offset: (page -1) * perPage 
         };
         let entryPoint = resource == 'entry' ? 'entries' : resource + 's';
         url = `${API_URL}/${entryPoint}?${queryParameters(query)}`;
@@ -65,7 +65,6 @@ const convertRESTRequestToHTTP = (type, resource, params) => {
         options.body = JSON.stringify(params.data);
         break;
     case DELETE:
-        console.log("line 68");
         url = `${API_URL}/${resource}/${params.id}`;
         options.method = 'DELETE';
         break;
@@ -86,15 +85,18 @@ const convertHTTPResponseToREST = (response, type, resource, params) => {
     const { headers, json } = response;
     switch (type) {
     case GET_LIST:
-
         let data = json
         return {
             data: data.entries,
-            total: data.entries.length,
+            total: data.total,
         };
     case CREATE:
         return { data: { ...params.data, id: json.id } };
     default:
+        if ( json.entry ){
+          // json.entry =
+          json.entry = markdown.markdown.toHTML(json.entry);
+        }
         return { data: json };
     }
 };

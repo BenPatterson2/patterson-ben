@@ -20,13 +20,37 @@ import {
 import { CardActions } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import NavigationRefresh from 'material-ui/svg-icons/navigation/refresh';
-import MarkdownInput from './aor-markdown-input/src/index';
+import RichTextInput from 'aor-rich-text-input';
+import markdown from 'markdown';
+import ChevronLeft from 'material-ui/svg-icons/navigation/chevron-left';
+import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right';
+import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 
 const cardActionStyle = {
     zIndex: 2,
     display: 'inline-block',
     float: 'right',
 };
+
+const PostPagination = ({ page, perPage, total, setPage }) => {
+    const nbPages = Math.ceil(total / perPage) || 1;
+    return (
+        nbPages > 1 &&
+            <Toolbar>
+                <ToolbarGroup>
+                {page > 1 &&
+                    <FlatButton primary key="prev" label="Prev" icon={<ChevronLeft />} onClick={() => setPage(page - 1)} />
+                }
+                {page !== nbPages &&
+                    <FlatButton primary key="next" label="Next" icon={<ChevronRight />} onClick={() => setPage(page + 1)} labelPosition="before" />
+                }
+                </ToolbarGroup>
+            </Toolbar>
+    );
+}
+
+
+
 
 const PostEditActions = ({ basePath, data, refresh }) => (
     <CardActions style={cardActionStyle}>
@@ -38,8 +62,9 @@ const PostEditActions = ({ basePath, data, refresh }) => (
 
 
 export const EntryList = (props) => (
-    <List {...props}>
+    <List {...props} pagination={<PostPagination />} >
         <Datagrid>
+             <TextField source="created" />
             <TextField source="id" />
             <TextField source="title" />
             <TextField source="entry" />
@@ -54,11 +79,7 @@ export const EntryCreate = (props) => (
     <Create {...props}>
         <SimpleForm>
             <TextInput source="title" />
-            <MarkdownInput source="entry" elStyle={{
-                'verticalAlign':'top',
-                 height: '300px',
-                 width:'400px',
-              }} />
+            <RichTextInput source="entry" validation={{ required:true }}  />
         </SimpleForm>
     </Create>
 );
@@ -73,15 +94,12 @@ export const EntryDelete = (props) => (
 const required = { required:true };
 
 export const EntryEdit = (props) => (
+
     <Edit {...props} actions={<PostEditActions />}>
         <SimpleForm>
             <DisabledInput label="Id" source="id" />
             <TextInput source="title" />
-            <MarkdownInput source="entry" elStyle={{
-                'verticalAlign':'top',
-                 height: '300px',
-                 width:'400px',
-              }} />
+            <RichTextInput source="entry" validation={{ required:true }} />
         </SimpleForm>
     </Edit>
 );

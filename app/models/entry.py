@@ -4,7 +4,7 @@ sys.path.insert(0,'../python_modules/markdown')
 import markdown
 from markupsafe import Markup, escape
 from google.appengine.ext import ndb
-
+import math;
 
 class Entry(ndb.Model): #places new entries into the database
 

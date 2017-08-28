@@ -12,10 +12,11 @@ class EntriesApi(Resource):
         args = parser.parse_args()
         offset = args['offset'] or 0
         entries = get_entries(offset)
-        res_json = { 'entries': [entry.to_json() for entry in entries ] }
+        total = Entry.query().count()
+        res_json = { 'entries': [entry.to_json() for entry in entries ], 'total':total }
         resp = Response(json.dumps(res_json))
         resp.headers.extend({
-            'Content-Range': '{}-{}/{}'.format(offset, offset + 10, Entry.query().count()),
+            'Content-Range': '{}-{}/{}'.format(offset, offset + 10, total ),
             'Content-Type':'application/json'
             })
         return resp
