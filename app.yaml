@@ -33,9 +33,14 @@ handlers:
    static_dir: client/build/static
    secure: always
 
- - url: /(.*)
+ - url: /blog(\/?)
+   static_files: client/build/blog.html
+   upload: client/build/blog.html
+   secure: always
+
+ - url: /
    static_files: client/build/index.html
-   upload: client/build/.*\.html$
+   upload: client/build/index.html
    secure: always
 
 skip_files:

@@ -19,7 +19,7 @@ var banner = ['/*!\n',
 
 // Compiles SCSS files from /scss into /css
 gulp.task('sass', function() {
-  return gulp.src('scss/freelancer.scss')
+  return gulp.src('scss/*.scss')
     .pipe(sass())
     .pipe(header(banner, {
       pkg: pkg
@@ -32,7 +32,7 @@ gulp.task('sass', function() {
 
 // Minify compiled CSS
 gulp.task('minify-css', ['sass'], function() {
-  return gulp.src('css/freelancer.css')
+  return gulp.src('build/static/css/*.!(min)css')
     .pipe(cleanCSS({
       compatibility: 'ie8'
     }))
@@ -72,6 +72,9 @@ gulp.task('copy', function() {
     ])
     .pipe(gulp.dest('build/static/vendor/bootstrap'));
 
+  gulp.src(['node_modules/vue/dist/vue.min.js'])
+     .pipe(gulp.dest('build/static/vendor/vue'));
+
   gulp.src(['node_modules/jquery/dist/jquery.min.js'])
     .pipe(gulp.dest('build/static/vendor/jquery'));
 
@@ -93,7 +96,7 @@ gulp.task('copy', function() {
     gulp.src(['img/**','img/**/*'])
     .pipe(gulp.dest('build/static/img'));
 
-    gulp.src('index.html').pipe(gulp.dest('build'));
+    gulp.src('*.html').pipe(gulp.dest('build'));
 });
 
 // Default task

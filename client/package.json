@@ -30,7 +30,8 @@
         "font-awesome": "4.7.0",
         "jquery": "^3.2.1",
         "jquery.easing": "^1.4.1",
-        "popper.js": "1.12.3"
+        "popper.js": "1.12.3",
+        "vue": "^2.4.2"
     },
     "devDependencies": {
         "browser-sync": "2.18.13",
@@ -42,8 +43,8 @@
         "gulp-sass": "^3.1.0",
         "gulp-uglify": "3.0.0"
     },
-    "scripts":{
-      "gulp":"gulp",
-      "gulp-dev":"gulp dev"
+    "scripts": {
+        "gulp": "gulp",
+        "gulp-dev": "gulp dev"
     }
 }
