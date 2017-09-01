@@ -5,7 +5,9 @@ import markdown
 from markupsafe import Markup, escape
 from google.appengine.ext import ndb
 import math;
+import datetime
 
+epoch = datetime.datetime.utcfromtimestamp(0)
 class Entry(ndb.Model): #places new entries into the database
 
 	title = ndb.StringProperty(required = True)
@@ -29,6 +31,7 @@ class Entry(ndb.Model): #places new entries into the database
 		  'entry':self.entry,
 		  'title':self.title,
 		  'created':self.created.strftime("%B %d, %Y - %H:%M"),
+		  'timestamp': (self.created - epoch).total_seconds() * 1000.0,
 		   'id': self.key.id()
 		}
 
