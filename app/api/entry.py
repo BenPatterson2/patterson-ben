@@ -11,6 +11,7 @@ from werkzeug.exceptions import BadRequest, NotFound
 class Validator(Schema):
     title = fields.Str(required=True)
     entry = fields.Str(required=True)
+    published = fields.Boolean(required=True)
 
 
 # Decoratores
@@ -58,6 +59,7 @@ class EntryApi(Resource):
     def put(self,entry, json_data=None, **kwargs):
         entry.title = json_data['title']
         entry.entry = json_data['entry']
+        entry.published = json_data['published']
         entry.put()
         return entry.to_json()
 

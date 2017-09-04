@@ -30,17 +30,12 @@ handlers:
    secure: always
 
  - url: /static
-   static_dir: client/build/static
-   secure: always
-
- - url: /blog(\/?)
-   static_files: client/build/blog.html
-   upload: client/build/blog.html
+   static_dir: client/dist/static
    secure: always
 
  - url: /
-   static_files: client/build/index.html
-   upload: client/build/index.html
+   static_files: client/dist/index.html
+   upload: client/dist/index.html
    secure: always
 
 skip_files:

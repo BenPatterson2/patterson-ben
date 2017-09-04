@@ -3,9 +3,16 @@
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import App from './App'
-import router from './router'
+import { createStore } from './store'
+import { createRouter } from './router'
+import { sync } from 'vuex-router-sync'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'bootstrap/dist/css/bootstrap.css'
+
+const store = createStore()
+const router = createRouter()
+
+sync(store, router)
 
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
@@ -13,6 +20,7 @@ Vue.use(BootstrapVue)
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })

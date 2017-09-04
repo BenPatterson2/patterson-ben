@@ -157,23 +157,23 @@ See the app folder for most of the code
  - [admin-panel](https://marmelab.com/admin-on-rest)
 
 ### TODO
-- fix pagination/replace with something prebuilt
-- tests on react
+- Get the individual post page working
+- put the caching with memcache back in
+- pagination  
+- change use of entries to post
+- put the transitions and smoothing back in with vue instead of
+  jquery https://router.vuejs.org/en/advanced/scroll-behavior.html 
 
+- tests on react backend
+- test on vue frontend
 SEE https://marmelab.com/admin-on-rest/RestClients.html to adjust the following
+- add filter options
+- some mock options  for local Development
 
-
-
-- Add get list route with range and filter options
-  (no login )
-- Add a Get MAny route that takes multiple ids
-No login
-- Add GET MANY REFERENCE - search by date, author contains - etc
-no login
 
 ### LATER
 - images
 - comments  
-- add ability to run a single test to the test runner. see test_runner.py and https://docs.python.org/2/library/unittest.html for details. This may involve some test refactorring but it should be an improvement overall
+- add ability to run a single test to the test runner. see test_runner.py and https://docs.python.org/2/library/unittest.html for details. This may involve some test refactoring but it should be an improvement overall
 
 

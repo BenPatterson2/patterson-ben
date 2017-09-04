@@ -2,6 +2,7 @@ import React from 'react';
 import {
     Create,
     Edit,
+    BooleanInput,
     SimpleForm,
     DisabledInput,
     TextInput,
@@ -64,7 +65,7 @@ const PostEditActions = ({ basePath, data, refresh }) => (
 export const EntryList = (props) => (
     <List {...props} pagination={<PostPagination />} >
         <Datagrid>
-             <TextField source="created" />
+            <TextField source="created" />
             <TextField source="id" />
             <TextField source="title" />
             <TextField source="entry" />
@@ -78,6 +79,7 @@ export const EntryList = (props) => (
 export const EntryCreate = (props) => (
     <Create {...props}>
         <SimpleForm>
+            <BooleanInput source="published" />
             <TextInput source="title" />
             <RichTextInput source="entry" validation={{ required:true }}  />
         </SimpleForm>
@@ -97,6 +99,7 @@ export const EntryEdit = (props) => (
 
     <Edit {...props} actions={<PostEditActions />}>
         <SimpleForm>
+            <BooleanInput source="published" />
             <DisabledInput label="Id" source="id" />
             <TextInput source="title" />
             <RichTextInput source="entry" validation={{ required:true }} />

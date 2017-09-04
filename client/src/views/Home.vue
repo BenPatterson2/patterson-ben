@@ -2,32 +2,36 @@
   <div id="app">
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <b-navbar toggleable="md" class="fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="/">Ben Patterson</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <b-navbar-brand  class="js-scroll-trigger" href="/">
+          Ben Patterson
+        </b-navbar-brand >
+
+        <b-nav-toggle right target="nav_collapse">
           Menu
           <i class="fa fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
+        </b-nav-toggle>
+
+        <b-collapse right is-nav id="nav_collapse">
+          <b-nav is-nav-bar class="ml-auto">
             <!-- <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="#portfolio">Portfolio</a>
             </li> -->
             <!-- <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="#about">About</a>
             </li> -->
-            <li class="nav-item">
-              <router-link to='/blog'><a class="nav-link js-scroll-trigger" >Blog</a></router-link>
-            </li>
+            <b-nav-item>
+              <router-link to='/blog' class="nav-link">Blog</router-link>
+            </b-nav-item>
 
             <!-- <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
             </li> -->
-          </ul>
-        </div>
+          </b-nav>
+        </b-collapse>
       </div>
-    </nav>
+    </b-navbar>
 
     <!-- Header -->
     <header class="masthead">
@@ -161,7 +165,7 @@
     name: 'home'
   }
   </script>
-  <style lang="sass">
+  <style scoped lang="sass">
     @import "src/assets/styles/home/freelancer";
 
   </style>

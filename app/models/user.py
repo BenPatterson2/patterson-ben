@@ -11,9 +11,17 @@ class User(ndb.Model): #places new entries into the database
       return user
 
     @staticmethod
+    def is_admin():
+      user = users.get_current_user()
+      if user:
+        return users.is_current_user_admin()
+      return False
+
+
+    @staticmethod
     def create_login_url(redirect_to):
         return users.create_login_url(redirect_to)
-        
+
     @staticmethod
     def create_logout_url(redirect_to):
         return users.create_logout_url(redirect_to)

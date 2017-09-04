@@ -10,7 +10,8 @@ from google.appengine.ext import ndb
 class TestEntry(unittest.TestCase):
     complete_data = {
         'title': 'this is a title',
-        'entry': 'this is an entry'
+        'entry': 'this is an entry',
+        'published': False
     }
     incomplete_data = {}
 
@@ -77,7 +78,22 @@ class TestEntry(unittest.TestCase):
         assert r2.status_code == 200
         #Should be getting back and id from newly created post
         assert entry2['id']
+        assert entry2['published'] == False
 
+    def test_authenticated__published_post(self):
+        self.loginUser(is_admin=True)
+
+        #complete data
+        r2 = self.post_json({
+            'title': 'this is a title',
+            'entry': 'this is an entry',
+            'published': True
+        })
+        entry2 = json.loads(r2.data.decode('utf-8'))
+        assert r2.status_code == 200
+        #Should be getting back and id from newly created post
+        assert entry2['id']
+        assert entry2['published'] == True
 
     def test_unauthenticated_put(self):
         single_entry = Entry(
@@ -110,7 +126,8 @@ class TestEntry(unittest.TestCase):
              url='api/entry/{}'.format(single_id.id()),
              data= {
                  'title': 'thiis is a new title',
-                 'entry':'this is an updated entry'
+                 'entry':'this is an updated entry',
+                 'published': False
               }
             )
         assert r.status_code == 200

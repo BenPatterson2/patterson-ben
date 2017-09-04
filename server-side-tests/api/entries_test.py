@@ -25,7 +25,8 @@ class TestEntries(unittest.TestCase):
           Entry(
             title='Fake ' + str(self.entry_count - x),
             entry='This entry' + str(self.entry_count- x),
-            created=datetime.datetime.now() - datetime.timedelta(hours=x)
+            created=datetime.datetime.now() - datetime.timedelta(hours=x),
+            published=True
            ) for x in range(self.entry_count)
         ]
         ndb.put_multi(entries)
@@ -38,8 +39,10 @@ class TestEntries(unittest.TestCase):
         r = self.app.get('api/entries')
         page =  r.data.decode('utf-8')
         entries =  json.loads(page)
-        assert len(entries['entries']) == 10
-        assert entries['entries'][0]['title'] == 'Fake 30'
+        assert len(entries['posts']) == 10
+        assert entries['total'] == self.entry_count
+        assert entries['posts'][0]['title'] == 'Fake 30'
+        assert isinstance(entries['posts'][0]['timestamp'], int)
 
     def test_entries_offset(self):
         offset = 20

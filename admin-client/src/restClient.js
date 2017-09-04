@@ -10,7 +10,7 @@ import {
     fetchUtils,
 } from 'admin-on-rest';
 import markdown from 'markdown';
-const API_URL =  'https://patterson-ben.appspot.com/api'; //window.location.origin  + '/api';
+const API_URL =  window.location.origin  + '/api';
 
 /**
  * @param {String} type One of the constants appearing at the top if this file, e.g. 'UPDATE'
@@ -21,13 +21,13 @@ const API_URL =  'https://patterson-ben.appspot.com/api'; //window.location.orig
 const convertRESTRequestToHTTP = (type, resource, params) => {
     let url = '';
     const { queryParameters } = fetchUtils;
-    const options = {}// { credentials: 'include' };
+    const options = { credentials: 'include' };
     switch (type) {
     case GET_LIST: {
         const { page, perPage } = params.pagination;
         const { field, order } = params.sort;
         const query = {
-            offset: (page -1) * perPage 
+            offset: (page -1) * perPage
         };
         let entryPoint = resource == 'entry' ? 'entries' : resource + 's';
         url = `${API_URL}/${entryPoint}?${queryParameters(query)}`;
@@ -87,7 +87,7 @@ const convertHTTPResponseToREST = (response, type, resource, params) => {
     case GET_LIST:
         let data = json
         return {
-            data: data.entries,
+            data: data.posts,
             total: data.total,
         };
     case CREATE:
