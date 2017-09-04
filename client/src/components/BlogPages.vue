@@ -2,7 +2,7 @@
     <div id="app">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-          <div v-for="entry in posts" >
+          <div v-for="entry in posts" class="px-4" >
             <router-link
               :to="{ name: 'post', params: { id: entry.id } }"
               class="post-preview"
