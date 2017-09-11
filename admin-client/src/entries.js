@@ -21,7 +21,7 @@ import {
 import { CardActions } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import NavigationRefresh from 'material-ui/svg-icons/navigation/refresh';
-import RichTextInput from 'aor-rich-text-input';
+import RichTextInput from './rich-text/index.js';
 import markdown from 'markdown';
 import ChevronLeft from 'material-ui/svg-icons/navigation/chevron-left';
 import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right';
@@ -81,7 +81,23 @@ export const EntryCreate = (props) => (
         <SimpleForm>
             <BooleanInput source="published" />
             <TextInput source="title" />
-            <RichTextInput source="entry" validation={{ required:true }}  />
+            <RichTextInput source="entry" validation={{ required:true }} toolbar={ [
+        ['bold', 'italic', 'underline', 'strike'],
+        ['blockquote', 'code-block'],            // custom button values
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+        [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+        [{ 'direction': 'rtl' }],                         // text direction
+
+        [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+        [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+        [{ 'font': [] }],
+        [{ 'align': [] }],
+        ['image'], ['link'],
+        ['clean']                                         // remove formatting button
+]}  />
         </SimpleForm>
     </Create>
 );
@@ -99,10 +115,26 @@ export const EntryEdit = (props) => (
 
     <Edit {...props} actions={<PostEditActions />}>
         <SimpleForm>
-            <BooleanInput source="published" />
+            <BooleanInput source="published" validaton={{ required:true }} />
             <DisabledInput label="Id" source="id" />
             <TextInput source="title" />
-            <RichTextInput source="entry" validation={{ required:true }} />
+              <RichTextInput source="entry" validation={{ required:true }} toolbar={ [
+          ['bold', 'italic', 'underline', 'strike'],
+          ['blockquote', 'code-block'],            // custom button values
+          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+          [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+          [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+          [{ 'direction': 'rtl' }],                         // text direction
+
+          [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+          [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+          [{ 'font': [] }],
+          [{ 'align': [] }],
+          ['image'], ['link'],
+          ['clean']                                         // remove formatting button
+  ]}  />
         </SimpleForm>
     </Edit>
 );

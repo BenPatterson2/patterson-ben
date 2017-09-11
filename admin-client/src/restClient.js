@@ -10,7 +10,7 @@ import {
     fetchUtils,
 } from 'admin-on-rest';
 import markdown from 'markdown';
-const API_URL =  window.location.origin  + '/api';
+const API_URL = window.location.origin  + '/api';
 
 /**
  * @param {String} type One of the constants appearing at the top if this file, e.g. 'UPDATE'
@@ -61,8 +61,22 @@ const convertRESTRequestToHTTP = (type, resource, params) => {
         break;
     case CREATE:
         url = `${API_URL}/${resource}`;
+        const { fetchJson } = fetchUtils;
         options.method = 'POST';
-        options.body = JSON.stringify(params.data);
+        if(params.data.files){
+          var formData = new FormData()
+          formData.append('image', params.data.files[0].rawFile)
+          options.body = formData
+
+          return fetchJson(url, { credentials:'include' })
+          .then((response, type, resource, params)=>{
+            const { headers, json } = response
+            url = json.uri;
+            return { url, options }
+          })
+        } else  {
+          options.body = JSON.stringify(params.data);
+        }
         break;
     case DELETE:
         url = `${API_URL}/${resource}/${params.id}`;
@@ -71,7 +85,7 @@ const convertRESTRequestToHTTP = (type, resource, params) => {
     default:
         throw new Error(`Unsupported fetch action type ${type}`);
     }
-    return { url, options };
+    return Promise.resolve({ url, options });
 };
 
 /**
@@ -85,18 +99,19 @@ const convertHTTPResponseToREST = (response, type, resource, params) => {
     const { headers, json } = response;
     switch (type) {
     case GET_LIST:
-        let data = json
+        let data = json;
+        let entryPoint = resource == 'entry' ? 'posts' : resource + 's';
         return {
-            data: data.posts,
+            data: data[entryPoint],
             total: data.total,
         };
     case CREATE:
         return { data: { ...params.data, id: json.id } };
     default:
-        if ( json.entry ){
-          // json.entry =
-          json.entry = markdown.markdown.toHTML(json.entry);
-        }
+        // if ( json.entry ){
+        //   // json.entry =
+        //   json.entry = markdown.markdown.toHTML(json.entry);
+        // }
         return { data: json };
     }
 };
@@ -109,7 +124,9 @@ const convertHTTPResponseToREST = (response, type, resource, params) => {
  */
 export default (type, resource, params) => {
     const { fetchJson } = fetchUtils;
-    const { url, options } = convertRESTRequestToHTTP(type, resource, params);
-    return fetchJson(url, options)
-        .then(response => convertHTTPResponseToREST(response, type, resource, params));
-};
+    return convertRESTRequestToHTTP(type, resource, params)
+    .then(({ url, options })=>{
+      return fetchJson(url, options)
+      .then(response => convertHTTPResponseToREST(response, type, resource, params))
+    })
+}

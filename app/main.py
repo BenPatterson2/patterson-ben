@@ -23,6 +23,8 @@ from flask_restful import reqparse
 from models.user import User
 
 from api.entry import CreateEntryApi, EntryApi
+from api.image import CreateImageApi, ImageApi
+from api.images import ImagesApi
 from api.entries import EntriesApi
 
 
@@ -37,6 +39,9 @@ api.add_resource(EntryApi, '/api/entry/<int:entry_id>')
 api.add_resource(CreateEntryApi, '/api/entry')
 api.add_resource(EntriesApi, '/api/entries')
 
+api.add_resource(ImageApi, '/api/image/<int:image_id>')
+api.add_resource(CreateImageApi, '/api/image')
+api.add_resource(ImagesApi, '/api/images')
 
 @app.route("/micro-manager/login")
 def login():
